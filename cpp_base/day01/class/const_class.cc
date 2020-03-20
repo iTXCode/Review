@@ -4,12 +4,6 @@ using namespace std;
 
 class Date{
   public:
-    void Display(){
-      cout<<"Display()"<<endl;
-      cout<<"year:"<<++_year<<endl;
-      cout<<"month:"<<_month<<endl;
-      cout<<"day:"<<_day<<endl;
-    }
 
      void Display()const{
       cout<<"Display()"<<endl;
@@ -18,8 +12,18 @@ class Date{
       //类中的成员变量被修改
       cout<<"month:"<<_month<<endl;
       cout<<"day:"<<_day<<endl;
+      
     }
- 
+
+
+    void Display(){
+      cout<<"Display()"<<endl;
+      cout<<"year:"<<++_year<<endl;
+      cout<<"month:"<<_month<<endl;
+      cout<<"day:"<<_day<<endl;
+
+    }
+
   private:
     int _year=1997;
     int _month=8;
@@ -32,9 +36,13 @@ void Test(){
   d1.Display();
 
   const Date d2;
+  
   d2.Display();
 }
 int main(){
   Test();
   return 0;
 }
+
+
+
