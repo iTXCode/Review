@@ -2,35 +2,34 @@
 
 using namespace std;
 
-//实现只能在栈上申请资源的类
 
-class StackOnly{
-  public:
-    static StackOnly getStack(){
-      return StackOnly();
-    }
-  private:
-    StackOnly(){
-
-    }
-};
+//只能在栈上,既杜绝一切在栈上申请资源的可能途径
 
 
 class Stack{
   public:
-  void *operator new(size_t n)=delete;
+    static Stack getStack(){
+      return Stack(); 
+      //此处的Stack会调用内部的私有化的构造函数
+      //私有化的构造函数也杜绝了外部的new关键字
+      //调用构造函数
+    }
   private:
-  Stack(){}
+    Stack(){
+      cout<<"Stack()"<<endl;
+    };
+
+
+    void* operator new(size_t n);
+    void operator delete(void *p);
+    //此时将operator new 和operator delete 
+    //写成私有化的函数
 };
-void Test(){
-  //StackOnly *ps = new StackOnly;
-  //已将构造函数私有化,所以new关键字不能再申请资源
-  StackOnly s=StackOnly::getStack();
-  //静态成员函数的调用方式,类型::函数名的方式
-  StackOnly cp(s);
-  //Stack ps=new Stack; //new方式被堵截
-}
+
 int main(){
- Test();
+  Stack stack=Stack::getStack();
+  //私有函数的调用方式类::函数名的形式
+  Stack s(stack);
+   
   return 0;
 }
