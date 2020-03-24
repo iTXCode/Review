@@ -4,6 +4,6 @@
 all: template Vector
 
 Vector:Vector.cc 
-	g++ $^ -o $@
+	g++ $^ -o $@  -g
 template:template.cc
 	g++ $^ -o $@
