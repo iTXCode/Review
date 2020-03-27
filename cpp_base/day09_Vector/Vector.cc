@@ -11,6 +11,7 @@ class Vector{
 typedef T* iterator;
 typedef const T* const_iterator;
 
+
 Vector(const int& val)
 :_start(nullptr)
   ,_finish(nullptr)
@@ -98,7 +99,7 @@ Vector(size_t n=0,const T&v=T())
         T* tmp=new T[n];
         size_t sz=Size();//获取原来对象的有效长度
         //进行值拷贝
-        for(int i=0;i<n;++i){
+        for(size_t i=0;i<sz;++i){
           tmp[i]=_start[i];
         }
 
@@ -225,7 +226,7 @@ Vector(size_t n=0,const T&v=T())
       }
     }
 
-    iterator Find(iterator pos1,iterator pos2,T& val){
+    iterator Find(iterator pos1,iterator pos2,const T& val){
       assert(pos1>=_start && pos1<=_finish);
       assert(pos2>= _start && pos2<=_finish);
 
@@ -237,6 +238,41 @@ Vector(size_t n=0,const T&v=T())
       }
       return _finish;
     }
+
+void Insert(iterator pos,size_t n,const T& val){
+  //首先检查插入的数据个数是否为0
+  //否为0的话，就没有插入的意义
+  
+  if(n!=0){
+    //比较备用空间大小和插入数据的大小
+    size_t sz=_end_of_storage-_finish;//用于记录备用空间的大小
+
+    //用于记录插入位置到有效字段结束这段内存的长度
+    size_t length=_finish-pos;
+
+    if(n>sz){
+      //说明不需要扩容,可以直接插入
+      size_t old_size=Capacity()+n;  
+      Reserve(old_size); 
+      pos=_finish-length;
+    }
+
+    T* end=_finish; 
+    for(size_t i=length+1;i>0;--i){
+      *(end+n)=*end;
+      --end;
+    }
+
+    _finish=_finish+n;
+    for(int i=0;i<n;++i){
+      *(pos+i)=val; 
+    }
+  }
+}
+
+void Clear(){
+  _finish=_start;
+}
   private:
     T *_start;
     T *_finish;
@@ -260,6 +296,19 @@ void TestInsert(Vector<T>& v){
   PrintIterator(v);
 }
 
+void TtestInset(){
+  Vector<int> v;
+  v.PushBack(1);
+  v.PushBack(2);
+  v.PushBack(5);
+  cout<<v.Size()<<endl;
+  cout<<v.Capacity()<<endl;
+  v.Insert(v.begin(),10,4);
+  PrintIterator(v);
+  cout<<v.Size()<<endl;
+  cout<<v.Capacity()<<endl;
+}
+
 void TestPushPop()
 {
   Vector<int> v;
@@ -270,9 +319,20 @@ void TestPushPop()
   v.PushBack(5);
   v1.PushBack(9);
   TestInsert(v);
+  Vector<int>::iterator pos=v.Find(v.begin(),v.end(),0);
+  v.Insert(pos,0);
+  cout<<*pos<<endl;
+  
+  cout<<*pos<<endl;
   PrintIterator(v);
   PrintIterator(v1);
   PrintIterator(v2);
+
+  cout<<"Clear():"<<endl;
+  v.Clear();
+
+  cout<<v.Size()<<endl;
+  cout<<v.Capacity()<<endl;
 }
 
 void TestReserve(){
@@ -297,10 +357,12 @@ void TestResize(){
   PrintIterator(v);
 }
 
+
 int main(){
   TestPushPop();
   TestString();
   TestReserve();
   TestResize();
+  TtestInset();
   return 0;
 }

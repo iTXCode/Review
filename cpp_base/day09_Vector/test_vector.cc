@@ -97,6 +97,18 @@
 #include<algorithm>
 #include<string>
 
+using namespace  std;
+
+template <class T>
+void Print(vector<T>& v){
+
+  auto it=v.begin();
+  while(it!=v.end()){
+    cout<<*it<<" ";
+    it++;
+  }    
+  cout<<endl;
+}
 
 int main(){
   std::vector<int> v;
@@ -107,5 +119,17 @@ int main(){
 
   std:: vector<std::string> v1(2,"bit");
   std::cout<<v1[0]<<std::endl;
+
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(3);
+  v.push_back(4);
+  vector<int>::iterator pos=find(v.begin(),v.end(),3);
+  v.insert(pos,520);
+  cout<<*pos<<endl;
+
+  pos=v.erase(pos);
+  cout<<"*pos:"<<*pos<<endl;
+  Print(v);
   return 0;
 }
