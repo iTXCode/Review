@@ -9,6 +9,6 @@ insert:insert.cc
 	g++ $^ -o $@
 
 Vector:Vector.cc 
-	g++ $^ -o $@
+	g++ $^ -o $@ -g
 
 

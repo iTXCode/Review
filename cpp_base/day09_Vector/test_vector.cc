@@ -55,35 +55,57 @@
 //}
 //
 
+//
+//#include<iostream>
+//#include<vector>
+//
+//using namespace std;
+//
+//
+//int main(){
+//  //vector::capacity()的使用
+//  vector<int> v3(3);
+//  vector<int> v(10,5);
+//  cout<<v.capacity()<<endl;
+//  
+//  //vector::reserve()的使用
+//  v.reserve(20);
+//  cout<<v.capacity()<<endl;
+//  
+//  vector<int>::iterator vt=v.begin();
+//  while(vt!=v.end()){
+//    cout<<*vt<<" ";
+//    vt++;
+//  }
+//  cout<<endl;
+//
+//  v.resize(30,1);
+//  vector<int>::iterator vt1=v.begin();
+//  while(vt1!=v.end()){
+//    cout<<*vt1<<" ";
+//    vt1++;
+//  }
+//  cout<<endl;
+//  return 0;
+//}
+//
+
+
 
 #include<iostream>
 #include<vector>
-
-using namespace std;
+#include<algorithm>
+#include<string>
 
 
 int main(){
-  //vector::capacity()的使用
-  vector<int> v(10,5);
-  cout<<v.capacity()<<endl;
-  
-  //vector::reserve()的使用
-  v.reserve(20);
-  cout<<v.capacity()<<endl;
-  
-  vector<int>::iterator vt=v.begin();
-  while(vt!=v.end()){
-    cout<<*vt<<" ";
-    vt++;
-  }
-  cout<<endl;
+  std::vector<int> v;
+  std::cout<<v.size()<<std::endl;
+  std::cout<<v.capacity()<<std::endl;
+  v.insert(v.begin(),3);
+  std::cout<<v[0]<<std::endl;
 
-  v.resize(30,1);
-  vector<int>::iterator vt1=v.begin();
-  while(vt1!=v.end()){
-    cout<<*vt1<<" ";
-    vt1++;
-  }
-  cout<<endl;
+  std:: vector<std::string> v1(2,"bit");
+  std::cout<<v1[0]<<std::endl;
   return 0;
 }
