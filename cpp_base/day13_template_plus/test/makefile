@@ -1,7 +1,10 @@
 .PHONY:all 
 
 
-all:memcpy  template
+all:memcpy  template  test 
+
+test:test.cc 
+	g++ $^ -o $@
 
 memcpy:memcpy.cc
 	g++ $^ -o $@
