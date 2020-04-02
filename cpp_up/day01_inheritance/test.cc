@@ -73,35 +73,103 @@
 //
 
 
+//#include<iostream>
+//
+//using namespace std;
+//
+//class Parent{
+//
+//  public:
+//    void Print(){
+//      cout<<"In Parent!"<<endl;
+//    }
+//    int sum=1;
+//};
+//
+//class child1:public Parent{
+//  public:
+//    void Print(){
+//      cout<<"In child1!"<<endl;
+//    }
+//    int sum=2;
+//};
+//int main(){
+//  Parent p;
+//  child1 c1;
+//  p.Print();
+//  c1.Print();
+//  c1.Parent::Print();
+//  cout<<"p.sum="<<p.sum<<endl;
+//  cout<<"c1.sum="<<c1.sum<<endl;
+//  cout<<"c1.Person::sum="<<c1.Parent::sum<<endl;
+//  cout<<"c1.child1::sum="<<c1.child1::sum<<endl;
+//  return 0;
+//}
+
+
+//#include<iostream>
+//using namespace std;
+//
+//class Person{
+//  public:
+//    void Add(){
+//      cout<<"Add()"<<endl;
+//    }
+//  private:
+//  protected:
+//    //收到基类保护的成员函数或者成员变量
+//    //在派生类中进行public访问的时候也访问不到
+//    void Print(){
+//      cout<<"Print()"<<endl;
+//    }
+//};
+//
+//class Student:private  Person{
+//  public:
+//
+//    Person p;
+//  private:
+//  protected:
+//
+//};
+//int main(){
+// Student s;
+// s.Add();
+//  return 0;
+//}
+
+
 #include<iostream>
 
 using namespace std;
 
-class Parent{
+class Person{
 
   public:
-    void Print(){
-      cout<<"In Parent!"<<endl;
+    Person(){
+      cout<<"Person()"<<endl;
     }
-    int sum=1;
+    int num=10;
+    void Print(){
+      cout<<"Peron()"<<endl;
+    }
 };
 
-class child1:public Parent{
+
+class Student:protected Person{
+
   public:
-    void Print(){
-      cout<<"In child1!"<<endl;
+    Student(){
+      cout<<"Student()"<<endl;
     }
-    int sum=2;
+  private:
 };
 int main(){
-  Parent p;
-  child1 c1;
-  p.Print();
-  c1.Print();
-  c1.Parent::Print();
-  cout<<"p.sum="<<p.sum<<endl;
-  cout<<"c1.sum="<<c1.sum<<endl;
-  cout<<"c1.Person::sum="<<c1.Parent::sum<<endl;
-  cout<<"c1.child1::sum="<<c1.child1::sum<<endl;
+
+  Student s;//先调用基类的构造函数再调用派生类的
+  //cout<<s.num<<endl;
+  //当派生类以public方式继承的时候,Person中的num可以被访问到
+  //当以protected方式继承的时候就不可以方位基类中的public属性的变量和函数
+
   return 0;
 }
