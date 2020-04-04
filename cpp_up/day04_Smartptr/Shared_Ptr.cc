@@ -89,19 +89,19 @@ int main(){
   Shared_Ptr<int> sp1(sp);
   *sp1=20;
   cout<<"sp.UseCount():"<<sp.UseCount()<<endl;
-  cout<<sp1.UseCount()<<endl;
+  cout<<"sp1.UseCount():"<<sp1.UseCount()<<endl;
  
   Shared_Ptr<int> sp2(new int(10));
   sp1=sp2;
   cout<<"sp.UseCount():"<<sp.UseCount()<<endl;
-  cout<<sp1.UseCount()<<endl;
-  cout<<sp2.UseCount()<<endl;
+  cout<<"sp1.UseCount():"<<sp1.UseCount()<<endl;
+  cout<<"sp2.UseCount():"<<sp2.UseCount()<<endl;
 
   sp=sp2;
 
   cout<<"sp.UseCount():"<<sp.UseCount()<<endl;
-  cout<<sp1.UseCount()<<endl;
-  cout<<sp2.UseCount()<<endl;
+  cout<<"sp1.UseCount():"<<sp1.UseCount()<<endl;
+  cout<<"sp2.UseCount():"<<sp2.UseCount()<<endl;
 
   return 0;
 }
