@@ -12,6 +12,10 @@ void SeqListInit(SeqList* seqlist,int capacity){
   seqlist->_size=0;
   seqlist->_capacity=capacity;
 }
+int SeqListCapacity(SeqList * seqlist){
+  assert(seqlist);
+  return seqlist->_capacity;
+}
 
 //销毁顺序表
 void SeqListDestory(SeqList* seqlist){
@@ -19,6 +23,7 @@ void SeqListDestory(SeqList* seqlist){
   assert(seqlist->array!=NULL);
   assert(seqlist->_size>0);
   free(seqlist->array);
+  seqlist->array=NULL;
   seqlist->_size=0;
   seqlist->_capacity=0;
 }
@@ -143,9 +148,16 @@ void SeqListErase( SeqList *seqlist,int pos){
 
 void SeqListPrint(const SeqList* seqlist){
   assert(seqlist!=NULL);
-  assert(seqlist->array!=NULL);
+
+
+  if(seqlist->array==NULL){
+    printf("顺序表为空或者已经被销毁\n");
+  }
 
   for(int i=0;i<seqlist->_size;i++){
+    if(i%10==0){
+      printf("\n");
+    }
     printf("%d ",seqlist->array[i]);
   }
   printf("\n");

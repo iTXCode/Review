@@ -13,6 +13,8 @@ typedef struct SeqList{
 //用于初始化顺序表
 void SeqListInit(SeqList* seqlist,int capacity);
 
+
+int SeqListCapacity(SeqList * seqlist);
 //销毁顺序表
 
 void SeqListDestory(SeqList* seqlist);
