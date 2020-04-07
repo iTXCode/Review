@@ -26,6 +26,7 @@ void SeqListDestory(SeqList* seqlist){
   seqlist->array=NULL;
   seqlist->_size=0;
   seqlist->_capacity=0;
+  printf("顺序表已销毁!\n");
 }
 
 //扩容

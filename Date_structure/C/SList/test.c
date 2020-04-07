@@ -35,6 +35,7 @@ void TestSList(){
   SLNode* pos1=SList_Find(&list,520);
   SListInsertBefore(&list,pos1,1314);
   SList_Print(&list);
+  SListDestory(&list);
 }
 
 int main(){

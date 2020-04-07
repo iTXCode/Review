@@ -38,6 +38,8 @@ void TestSeqlist(){
 
   SeqListDestory(&seqlist);
   SeqListPrint(&seqlist);
+
+
 }
 
 int main(){

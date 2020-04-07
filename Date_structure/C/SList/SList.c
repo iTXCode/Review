@@ -21,6 +21,8 @@ void SListDestory(SList* list){
     cur=next;
   }
   list->_head=NULL;
+
+  printf("单链表已销毁!\n");
 }
 
 //【增】
