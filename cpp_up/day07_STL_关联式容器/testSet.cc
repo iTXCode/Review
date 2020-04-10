@@ -5,7 +5,7 @@
 using namespace std;
 
 void TestSet(){
-  set<int> testSet;
+  set<int,greater<int>> testSet;
   testSet.insert(1);
   testSet.insert(2);
   testSet.insert(3);

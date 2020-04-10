@@ -95,14 +95,6 @@ class BSTree{
       std::cout<<std::endl;
     }
 
-    void _inorderTravel(pNode& root){
-      if(root!=nullptr){
-        _inorderTravel(root->_left);
-        std::cout<<root->_value<<" ";
-        _inorderTravel(root->_right);
-      }
-      
-    }
 
 
     //删除
@@ -114,7 +106,7 @@ class BSTree{
       pNode cur=_root;
       pNode parent=nullptr;
       while(cur){
-        parent=cur;
+  
         if(cur->_value==val){
           break;
         }else if(cur->_value>val){
@@ -130,39 +122,133 @@ class BSTree{
       //先确定删除的结点是否为根结点
       //1.删除叶子结点
       if(cur->_left==nullptr && cur->_right==nullptr){  
-        if(parent!=_root){
+        if(cur!=_root){
+          //让父亲结点对应的位置为空
           if(parent->_left==cur){
             parent->_left=nullptr;
           }else{
             parent->_right=nullptr;
           }
         }else{
-          _root==nullptr;
+          //删除_root.树为空
+          _root=nullptr;
         }
         delete cur;
-          cur=nullptr;
-        }else if(cur->_left==nullptr){
-        //父亲结点的一个孩子结点为空
+        cur=nullptr;
+      }else if(cur->_left==nullptr){
+        //父亲结点的一个孩子结点(左孩子)为空
           if(cur!=_root){
+            //首先确定当前结点在其父亲结点的左边还是右边
+            //对应位置设为cur->right 
             if(parent->_left==cur){
               parent->_left=cur->_right;
             }else{
               parent->_right=cur->_right;
             }
           }else{
+            //更新根
             _root=_root->_right;
           }
           delete cur;
           cur=nullptr;
-      }
-      ///TODO: 49:23
+        }else if(cur->_right==nullptr){
+          if(cur!=_root){
+            if(parent->_left==cur){
+              //当前结点只有左孩子没有右孩子的情况
+              parent->_left=cur->_left;
+            }else{
+              //当前结点只有左孩子没有右孩子的情况
+              parent->_right=cur->_left;
+            }
+          }else{
+            _root=_root->_left;
+          }
+          delete cur;
+          cur=nullptr;
+        }else{
+          //左右孩子都存在
+          //1.寻找替换节点
+          pNode pNext=cur->_left;//从其左子树中找一个最大的结点来替换
+          parent=cur;
+          while(pNext->_right){
+            parent=pNext;
+            pNext=pNext->_right;
+          }
 
+          //2.置换
+          cur->_value=pNext->_value;
+          //问题
+          if(parent->_right==pNext)
+            parent->_right=nullptr;
+      
+          //若pNext所指向的子节点不是叶子结点
+          if(pNext->_left== nullptr&& pNext->_right==nullptr){
+             parent->_left=nullptr;
+          }
+          if(pNext->_left){
+            parent->_left=pNext->_left;
+          }else if(pNext->_right){
+            parent->_left=pNext->_right;
+          }else{
+            cur->_left=nullptr;
+          }
+          delete pNext;
+          pNext=nullptr;
+        }
+      return true; 
+    }
+ 
+    void PreOrderTravel(){
+      _preorderTravel(_root);
+      std::cout<<std::endl;
     }
 
+
+    void PostOrderTravel(){
+      _postorderTravel(_root);
+      std::cout<<std::endl;
+    }
 
     ~BSTree(){
       std::cout<<"~BSTree()"<<std::endl;
+      Distory(_root);
     }
+  private:
+    //将析构函数内部的删除函数封装成私有的
+    void Distory(pNode root){
+      if(root){
+        Distory(root->_left);
+        Distory(root->_right);
+        delete root;
+        root=nullptr;
+      }
+    }
+
+    
+    void _inorderTravel(pNode& root){
+      if(root!=nullptr){
+        _inorderTravel(root->_left);
+        std::cout<<root->_value<<" ";
+        _inorderTravel(root->_right);
+      } 
+    }
+
+    void _preorderTravel(pNode& root){
+      if(root!=NULL){
+        std::cout<<root->_value<<" ";
+        _preorderTravel(root->_left);
+        _preorderTravel(root->_right);
+      }
+    }
+
+     void _postorderTravel(pNode& root){
+      if(root!=NULL){
+        std::cout<<root->_value<<" ";
+        _postorderTravel(root->_left);
+        _postorderTravel(root->_right);
+      }
+    }
+ 
   private:
     pNode  _root;
 };
