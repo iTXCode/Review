@@ -78,7 +78,7 @@ class Avl_Tree{
          break;
        }
        //高度加1,需要去更新此路径上的祖先结点的平衡因子
-       if(parent->_bf==1 || parent->_-1){
+       if(parent->_bf==1 || parent->_bf==-1){
          cur=parent; //向上调整的cur所指的结点需要不断更新
          parent=parent->_parent;
        }else if(parent->_bf==2 || parent->_bf==-2){
@@ -91,10 +91,22 @@ class Avl_Tree{
            RotateR(parent);
            //调整完毕,已经平衡.结束调整
           
+         }else if(parent->_bf==-2 && cur->_bf==1){
+           //左右双旋
+           //左旋:RotateL(subL);
+           //右旋:RotateR(parent)
+           RotateL(cur);
+           RotateR(parent);
+         }else if(parent->_bf==2 && cur->_bf==-1){
+           //右左双旋
+           RotateR(cur);
+           RotateL(parent);
          }
+         //旋转结束,已经平衡,结束调整
         break;
        }
      }
+     return true;
    }
 
 
@@ -104,7 +116,7 @@ class Avl_Tree{
      pNode subRL=subR->_left;
 
      //旋转
-     subR->_lef=parent;
+     subR->_left=parent;
      parent->_right=subRL;
 
      //更新三叉链
@@ -191,6 +203,21 @@ class Avl_Tree{
      subL->_bf=parent->_bf=0;
    }
 
+   
+   //验证AVL树
+   
+   void Inorder(){
+     _inorder(_root);
+     std::cout<<std::endl;
+   }
+  private:
+   void _inorder(pNode root){
+     if(root){
+       _inorder(root->_left);
+       std::cout<<root->_data<<" ";
+       _inorder(root->_right);
+     }
+   }
   private:
    pNode _root=nullptr;
 };
