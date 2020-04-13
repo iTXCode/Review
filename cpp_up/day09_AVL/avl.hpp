@@ -210,13 +210,42 @@ class Avl_Tree{
      _inorder(_root);
      std::cout<<std::endl;
    }
+   
+   bool Isbalance(){
+     return _isBalance(_root);
+   }
+
+
+   //求子树的高度
+   int Height(pNode cur){
+     if(cur==nullptr)
+       return 0;
+     int left=Height(cur->_left);
+     int right=Height(cur->_right);
+     return left>right?left+1:right+1;
+   }
   private:
    void _inorder(pNode root){
      if(root){
        _inorder(root->_left);
-       std::cout<<root->_data<<" ";
+       std::cout<<root->_data<<"-->"<<root->_bf<<std::endl;
        _inorder(root->_right);
      }
+   }
+
+   //判断AVL树是否为平衡树
+   bool _isBalance(pNode root){
+     if(root==nullptr)
+       return true;
+
+     int left=Height(root->_left);
+     int right=Height(root->_right);
+
+     if(root->_bf != (right-left)){
+       return false;
+     }
+     return abs(root->_bf)<2 && _isBalance(root->_left) && _isBalance(root->_right);
+
    }
   private:
    pNode _root=nullptr;
