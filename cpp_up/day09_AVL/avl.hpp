@@ -90,17 +90,41 @@ class Avl_Tree{
            //右旋
            RotateR(parent);
            //调整完毕,已经平衡.结束调整
-          
+       
          }else if(parent->_bf==-2 && cur->_bf==1){
            //左右双旋
            //左旋:RotateL(subL);
            //右旋:RotateR(parent)
+           pNode subL=parent->_left;
+           pNode subLR=subL->_right;
+           int bf=subLR->_bf;
            RotateL(cur);
            RotateR(parent);
+
+           if(bf==1){
+             parent->_bf=0;
+             subL->_bf=-1;
+           }else if(bf==-1){
+             parent->_bf=1;
+             subL->_bf=0;
+           }
+           
          }else if(parent->_bf==2 && cur->_bf==-1){
            //右左双旋
+           pNode subR=parent->_right;
+           pNode subRL=subR->_left; 
+           int bf=subRL->_bf; 
            RotateR(cur);
            RotateL(parent);
+           if(bf==1){
+             subR->_bf=0;
+             parent->_bf=-1;
+           }else if(bf==-1){
+             parent->_bf=0;
+             subR->_bf=1;
+           }
+
+         
          }
          //旋转结束,已经平衡,结束调整
         break;
@@ -180,7 +204,7 @@ class Avl_Tree{
      if(subLR){
        subLR->_parent=parent;
      }
-     //3.双向链接subL与parent-<_parent 
+     //3.双向链接subL与parent<_parent 
      if(parent!=_root){
        pNode gParent=parent->_parent;
 
@@ -208,7 +232,6 @@ class Avl_Tree{
    
    void Inorder(){
      _inorder(_root);
-     std::cout<<std::endl;
    }
    
    bool Isbalance(){
