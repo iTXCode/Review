@@ -9,5 +9,7 @@ int main(){
     rbt.Insert(e);
   }
   rbt.Inorder();
+  cout<<"rbt is a 红黑树:"<<rbt.IsValidRBTree()<<endl;
+
   return 0;
 }

@@ -11,11 +11,20 @@ enum Color{
 template <class T>
 
 struct RBTNode{
+  RBTNode(const T& kv=T(),Color color=Red)
+    :_kv(kv)
+     ,_color(color)
+     ,_left(nullptr)
+     ,_right(nullptr)
+     ,_parent(nullptr)
+  {
+
+  }
   T _kv;
-  Color _color=Red;
-  RBTNode<T>* _left=nullptr;
-  RBTNode<T>* _right=nullptr;
-  RBTNode<T>* _parent=nullptr;
+  Color _color;
+  RBTNode<T>* _left;
+  RBTNode<T>* _right;
+  RBTNode<T>* _parent;
 };
 
 template <class T>
@@ -41,6 +50,7 @@ class RBTree{
         _root->_parent=_head;
         _head->_left=_root;
         _head->_right=_root;
+        _head->_parent=_root;
         return true;
       }
 
@@ -48,12 +58,10 @@ class RBTree{
       pNode cur=_head->_parent;
       pNode parent=nullptr;
       while(cur){
-    
+        parent=cur;
         if(cur->_kv > kv){
-          parent=cur;
           cur=cur->_left;
         }else if(cur->_kv < kv){
-          parent=cur;
           cur=cur->_right;
         }else{
           return false;
@@ -105,7 +113,8 @@ class RBTree{
           if(uncle && uncle->_color==Red){
             parent->_color=uncle->_color=Black;
             gparent->_color=Red;
-            cur=parent;
+            cur=gparent;
+
           }else{
             //u存在且为黑/u不存在
             if(parent->_left==cur){
@@ -119,13 +128,15 @@ class RBTree{
             break;
           }
         }
-        //红黑树根始终是黑色的
-        _head->_parent->_color=Black;
-        //为了实现后续的迭代器,将head的左右指针指向最大,最小的值
-        _head->_left=leftMost();
-        _head->_right=rightMost();
-        return true;
+      
       }
+      //红黑树根始终是黑色的
+      _head->_parent->_color=Black;
+      //为了实现后续的迭代器,将head的左右指针指向最大,最小的值
+      _head->_left=leftMost();
+      _head->_right=rightMost();
+      return true;
+
     }
 
     pNode leftMost(){
@@ -227,7 +238,7 @@ class RBTree{
         // 检测根节点是否满足情况
         if (Black != pRoot->_color)
         {
-          cout << "违反红黑树性质二：根节点必须为黑�  �" << endl;
+          cout << "违反红黑树性质一：根节点必须为黑色!" << endl;
           return false;
         }
       // 获取任意一条路径中黑色节点的个数
@@ -237,17 +248,27 @@ class RBTree{
       {
         if (Black == pCur->_color)
           blackCount++;
-        pCur = pCur->_pLeft;
+        pCur = pCur->_left;
       }
       // 检测是否满足红黑树的性质，k用来记录路径中黑色节点的个数
       size_t k = 0;
       return _IsValidRBTree(pRoot, k, blackCount);
     }
 
+  private:
+    void _Inorder(pNode parent){
+      if(parent){
+        _Inorder(parent->_left);
+        cout<<parent->_kv<<" ";
+        _Inorder(parent->_right);
+      }
+    }
+
     pNode GetRoot(){
       return _head->_parent;
     }
 
+    
     bool _IsValidRBTree(pNode pRoot, size_t k, const size_t blackCount) {
       //走到null之后，判断k和black是否相等
       if (nullptr == pRoot)
@@ -264,23 +285,16 @@ class RBTree{
       if (Black == pRoot->_color)
         k++;
       // 检测当前节点与其双亲是否都为红色
-      pNode pParent = pRoot->_pParent;
+      pNode pParent = pRoot->_parent;
       if (pParent && Red == pParent->_color && Red == pRoot->_color)
       {
         cout << "违反性质三：没有连在一起的红色节点" << endl;
         return false;
       }
-      return _IsValidRBTree(pRoot->_pLeft, k, blackCount) &&
-        _IsValidRBTree(pRoot->_pRight, k, blackCount);
+      return _IsValidRBTree(pRoot->_left, k, blackCount) &&
+        _IsValidRBTree(pRoot->_right, k, blackCount);
     }
-  private:
-    void _Inorder(pNode parent){
-      if(parent){
-        _Inorder(parent->_left);
-        cout<<parent->_kv<<" ";
-        _Inorder(parent->_right);
-      }
-    }
+
   private:
     pNode _head;
 };
