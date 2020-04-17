@@ -107,7 +107,11 @@ struct RBTreeIterator{
     //end--能够走到最大节点的位置
 
     if (_pNode->_pParent->_pParent == _pNode&& Red==_pNode->_color){
-     
+    
+      //当_pNode符合_pNode->_pParent->_pParent==_pNoded 
+      //的时候说明_pNode是根结点或者_head,
+      //_pNode->_color==Red则派出了_pNode是根结点的情况
+      //则_pNode指向的是_head,其--指向了该树种最大的结点
       _pNode = _pNode->_pRight;
     }
     else if (_pNode->_pLeft){
