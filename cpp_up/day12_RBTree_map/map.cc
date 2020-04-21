@@ -10,14 +10,12 @@ void testMap(){
 
   m[3] = "中国";
 
-
-
   bite::Map<int,string>::Iterator t=m.begin(); 
   while(t!=m.end()){
     cout<<t->first<<" "<<t->second<<endl;
     t++;
   }
-
+  cout<<"该容器中存储的键值对个数:"<<m.size()<<endl;
 }
 
 int main(){

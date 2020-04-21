@@ -148,16 +148,16 @@ struct RBTreeIterator{
   Node* _pNode;
 };
 
-template <class T,class KOFV>
+template <class K,class V,class KeyOfValue>
 
 //因为关联式容器中的存储的是<Key,Value>的键值对,因此k为Key的类型
 //ValueType:如果是map，则为pair<k,V>;如果是set，则为K
 //KeyOfValue;通过value来获取key的一个仿函数
 class RBTree{
   public:
-    typedef RBTNode<T> Node;
+    typedef RBTNode<V> Node;
     typedef Node*  pNode;
-    typedef RBTreeIterator<T> Iterator;
+    typedef RBTreeIterator<V> Iterator;
    
 
     Iterator Begin(){
@@ -168,14 +168,14 @@ class RBTree{
       return Iterator(_head);
     }
 
-    Iterator Find(const T&data)const{
+    Iterator Find(const V&data)const{
       pNode cur=_head->_parent;
 
       while(cur){
-        if(KOFV()(data)==KOFV()(cur->_kv)){
+        if(KeyOfValue(data)==KeyOfValue(cur->_kv)){
           return Iterator(cur);
         
-        }else if(KOFV()(data)<KOFV()(cur->_kv)) {
+        }else if(KeyOfValue(data)<KeyOfValue(cur->_kv)) {
           cur=cur->_left;
         }else{
           cur=cur->_right;
@@ -208,13 +208,13 @@ class RBTree{
     }
 
 
-    pair<Iterator,bool>  Insert(const T& kv){
-     cout<<kv.first<<" "<<kv.second<<endl;
+    pair<Iterator,bool>  Insert(const V& kv){
+
       pNode pRoot=GetRoot();
       pNode pNewNode=nullptr;
     
       if(pRoot==nullptr){
-        cout<<"pRoot==nullptr"<<endl;
+
         //第一次插入的时候插入的是根结点,且颜色为黑色
         /*pNode _root=new Node(kv);
         _root->_color=Black;
@@ -229,19 +229,23 @@ class RBTree{
         _head->_parent=pRoot;
         _head->_left=pRoot;
         _head->_right=pRoot;
+        ++_size;
         return make_pair(Iterator(pNewNode),true);
       }
       else 
       {  //处理存在根结点的情况
 
-        cout<<"pRoot!=nullptr"<<endl;
+
         pNode cur=pRoot;
+        KeyOfValue keyofvalue;
         pNode parent=nullptr;
         while(cur){
           parent=cur;
-          if(KOFV()(kv)<KOFV()(cur->_kv)){
+          if(KeyOfValue(cur->_kv)>KeyOfValue(kv)){
+          
             cur=cur->_left;
-          }else if(KOFV()(kv)>KOFV()(cur->_kv)){
+          }else if(KeyOfValue(kv)>KeyOfValue(cur->_kv)){
+
             cur=cur->_right;
           }else{
             return make_pair(Iterator(cur),false);
@@ -251,7 +255,8 @@ class RBTree{
         //进行插入
        pNewNode=cur=new Node(kv);
 
-        if(KOFV()(kv)>KOFV()(parent->_kv)){
+
+        if(KeyOfValue(cur->_kv)<KeyOfValue(parent->_kv)){
           parent->_left=cur;
         }else{
           parent->_right=cur;
@@ -260,7 +265,7 @@ class RBTree{
         cur->_parent=parent;
 
         //进行调整变色
-        while(parent!=_head && parent->_color==Red){
+        while(cur!=pRoot && parent->_color==Red){
    
           pNode gparent=parent->_parent;
           if(gparent->_left==parent){
@@ -286,6 +291,7 @@ class RBTree{
               RotateR(gparent);
               parent->_color=Black;
               gparent->_color=Red;
+              break;
             }
           }else{
             pNode uncle=gparent->_left;
@@ -305,23 +311,21 @@ class RBTree{
               RotateL(gparent);
               gparent->_color=Red;
               parent->_color=Black;
-           
+              break; 
             }
           }
 
         }
-
-         ++_size;
-        //红黑树根始终是黑色的
-        pRoot->_color=Black;
-        //为了实现后续的迭代器,将head的左右指针指向最大,最小的值
-        _head->_left=leftMost();
-        _head->_right=rightMost();
-       
       } 
 
+      ++_size;
+      //红黑树根始终是黑色的
+      pRoot->_color=Black;
+      //为了实现后续的迭代器,将head的左右指针指向最大,最小的值
+      _head->_left=leftMost();
+      _head->_right=rightMost();
 
-     return make_pair(Iterator(pNewNode),true); 
+      return make_pair(Iterator(pNewNode),true); 
 
     }
 

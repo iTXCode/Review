@@ -16,7 +16,7 @@ namespace bite{
 
  
       public:
-     typedef typename   RBTree<ValueType,KeyOfValue>::Iterator Iterator;
+     typedef typename   RBTree<K,pair<K,V>,ValueType>::Iterator Iterator;
 
       public:
       Map()
@@ -46,29 +46,28 @@ namespace bite{
 
       //下标运算符
       V& operator[](const K& key){
-        return (*(( _t.Insert(ValueType(key,V()) )).first)).second;
+        pair<Iterator,bool> ret=Insert(make_pair(key,V()));
+        return ret.first->second;
       }
 
       const V& operator[](const K& key)const{
-        return (*(( _t.Insert(ValueType(key,V()) )).first)).second;
+        return ( _t.Insert(make_pair(key,V()) ).first)->second;
       }
 
       pair<Iterator,bool> Insert(const ValueType& data){
-        cout<<"Map:"<<data.first<<" "<<data.second<<endl;
+    
         return _t.Insert(data);
       }
 
 
-      Iterator Insert(Iterator position,const V& x){
-        return _t.Insert(position,x);
-      }
 
       template<class InputIterator>
 
         void Insert(InputIterator first,InputIterator second){
           _t.Insert(first,second);
         }
+
       private:
-        RBTree<ValueType,KeyOfValue> _t;
+        RBTree<K,pair<K,V>,ValueType> _t;
     };
 }
