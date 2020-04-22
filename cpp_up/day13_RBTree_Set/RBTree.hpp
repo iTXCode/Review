@@ -56,8 +56,9 @@ struct RBTreeIterator{
   }
 
   T*  operator->(){
-    return &(operator*());
+    //return &(operator*());
     //一般不直接取,通过解引用的方式来取地址
+    return &_pNode->_kv;
   }
 
   //迭代器的移动
@@ -241,10 +242,10 @@ class RBTree{
         pNode parent=nullptr;
         while(cur){
           parent=cur;
-          if(KeyOfValue(cur->_kv)>KeyOfValue(kv)){
+          if(KeyOfValue(cur->_kv) > KeyOfValue(kv)){
           
             cur=cur->_left;
-          }else if(KeyOfValue(kv)>KeyOfValue(cur->_kv)){
+          }else if(KeyOfValue(kv) > KeyOfValue(cur->_kv)){
 
             cur=cur->_right;
           }else{
@@ -256,7 +257,7 @@ class RBTree{
        pNewNode=cur=new Node(kv);
 
 
-        if(KeyOfValue(cur->_kv)<KeyOfValue(parent->_kv)){
+        if(KeyOfValue(cur->_kv) < KeyOfValue(parent->_kv)){
           parent->_left=cur;
         }else{
           parent->_right=cur;

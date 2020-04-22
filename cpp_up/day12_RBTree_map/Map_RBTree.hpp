@@ -8,11 +8,11 @@ namespace bite{
       typedef pair<K,V> ValueType;
 
       //该内部类的作用是:将value中的key提取出来
-      struct KeyOfValue{
-        const K&operator()(const ValueType& data){
-          return data.first;
-        }
-      };
+     // struct KeyOfValue{
+     //   const K&operator()(const ValueType& data){
+     //     return data.first;
+     //   }
+     // };
 
  
       public:
@@ -48,6 +48,7 @@ namespace bite{
       V& operator[](const K& key){
         pair<Iterator,bool> ret=Insert(make_pair(key,V()));
         return ret.first->second;
+        //ret.first.operator->()->second;
       }
 
       const V& operator[](const K& key)const{

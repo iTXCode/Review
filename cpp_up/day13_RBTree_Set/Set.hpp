@@ -1,56 +1,36 @@
+#pragma once
 #include"RBTree.hpp"
+
 namespace  bite{ 
-  template <class K,class V>
+  template<class K>
+
     class Set{
-      typedef pair<K,V> SetType;
 
-      //该内部类用于将Value中的key提取出来
-      struct KeyOfValue{
-        const K&operator()(const SetType& kv){
-          return kv.first;
-        }
-      };
-
-
+      typedef K ValueType;
       public:
-      typedef  typename RBTree<K,pair<K,V>,SetType>::Iterator Iterator;
+      typedef typename RBTree<K,K,ValueType>::Iterator Iterator;
 
-      Set()
-        :_set()
-      {
-
+      pair<Iterator,bool> Insert(const ValueType& key){
+        return _t.Insert(key);
       }
 
       Iterator begin(){
-        return _set.Begin();
+        return _t.Begin();
       }
 
       Iterator end(){
-        return _set.End();
+        return _t.End();
       }
 
-      size_t size()const{
-        return _set.Size();
+      bool empty(){
+        return _t.Empty();
       }
-
-      bool empty()const{
-        return _set.Empty();
-      }
-
-      Iterator find(const K& key){
-        return _set.Find(make_pair(key,V()));
-      }
-
-      //下标运算符
-      V& operator[](const K& key){
-        pair<Iterator,bool> ret=Insert(make_pair(key,V()));
-        return ret.first->second;
-      }
-
-      pair<Iterator,bool> Insert(const SetType& data){
-        return _set.Insert(data);
+ 
+      K& operator[](const K& key){
+        K ret=_t.Insert(key);
+        return ret;
       }
       private:
-      RBTree<K,pair<K,V>,SetType> _set;
-    }; 
+      RBTree<K,K,ValueType> _t;
+    };
 }
