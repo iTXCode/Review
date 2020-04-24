@@ -15,7 +15,7 @@ namespace bite{
      // };
 
  
-      public:
+     public:
      typedef typename   RBTree<K,pair<K,V>,ValueType>::Iterator Iterator;
 
       public:
@@ -60,13 +60,6 @@ namespace bite{
         return _t.Insert(data);
       }
 
-
-
-      template<class InputIterator>
-
-        void Insert(InputIterator first,InputIterator second){
-          _t.Insert(first,second);
-        }
 
       private:
         RBTree<K,pair<K,V>,ValueType> _t;

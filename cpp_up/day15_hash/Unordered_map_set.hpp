@@ -1,9 +1,11 @@
+#pragma once
 #include"hash.hpp"
 
 template <class K,class V>
 
 class UnorderedMap{
   public:
+    typedef pair<K,V> ValueType;
 
     struct MapKeyOfValue{
       const K& operator()(const pair<K,V>& data){
@@ -11,11 +13,23 @@ class UnorderedMap{
       }
     };
   public:
+    typedef typename HashTable<K,ValueType,MapKeyOfValue>::Iterator   Iterator;
+
+    Iterator Begin(){
+      return _ht.begin();
+    }
+
+    Iterator End(){
+      return _ht.end();
+    }
+  public:
+
+
     bool  Insert(const pair<K,V>&  data){
         return _ht.Insert(data);
     }
   private:
-    Opend::HashTable<K,pair<K,V>,MapKeyOfValue> _ht;
+    HashTable<K,ValueType,MapKeyOfValue> _ht;
 };
 
 
@@ -28,10 +42,19 @@ class UnorderedSet{
       return data;
     }
   };
+  typedef typename HashTable<K,K,SetKeyOfValue>::Iterator Iterator;
+
+  Iterator Begin(){
+    return  _ht.begin(); 
+  }
+
+  Iterator End(){
+    return _ht.end();
+  }
   public:
    bool Insert(const K& data){
      return   _ht.Insert(data);
   }
   private:
-    Opend::HashTable<K,K,SetKeyOfValue> _ht;
+    HashTable<K,K,SetKeyOfValue> _ht;
 };

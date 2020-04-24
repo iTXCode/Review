@@ -1,36 +1,49 @@
 #include"hash.hpp"
 #include"Unordered_map_set.hpp"
+#include"bitSet.hpp"
 
 void TestUnordered(){
   UnorderedMap<int,int> map;
+
   map.Insert(make_pair(1,1));
   map.Insert(make_pair(2,2));
   map.Insert(make_pair(3,3));
   map.Insert(make_pair(4,4));
   map.Insert(make_pair(5,5));
 
-
-  UnorderedSet<int> set;
+  UnorderedMap<int,int>::Iterator mit=map.Begin();
+  UnorderedMap<int,int>::Iterator e=map.End();
+  while(mit!=map.End()){
+    cout<<mit->first<<"-->"<<mit->second<<endl;
+    ++mit; 
+  }
+  
+  UnorderedSet<int> set; 
   set.Insert(1);
   set.Insert(2);
   set.Insert(3);
   set.Insert(4);
   set.Insert(5);
-
+  
+  UnorderedSet<int>::Iterator sit=set.Begin();
+  while(sit!=set.End()){
+    cout<<*sit<<endl;
+    ++sit; 
+  }
 }
-void Test(){
-  Closed::HashTable<int,int> ht;
 
-  ht.Insert(make_pair(1,1));
-  ht.Insert(make_pair(2,2));
-  ht.Insert(make_pair(3,3));
-  ht.Insert(make_pair(4,4));
-  ht.Insert(make_pair(5,5));
-  ht.Insert(make_pair(6,6)); 
+
+void TestbitSet(){
+  bitSet bset(1000);
+  bset.Set(5);
+  cout<<bset.TestBSet(5)<<endl;
+  bset.Set(2);
+  bset.ReSet(5);
 }
 
 int main(){
   //Test();
-  TestUnordered();
+  //TestUnordered();
+  TestbitSet();
   return 0;
 }

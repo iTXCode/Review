@@ -104,7 +104,7 @@ namespace Closed
     };
 }
 
-namespace  Opend{
+
   template <class V>
     struct HashNode{
       HashNode<V>* _next;
@@ -118,21 +118,104 @@ namespace  Opend{
       }
     };
 
+  //前置声明,声明函数
+template<class K,class V,class KeyOfValue>
+class HashTable;
 
-  template<class K,class V,class KeyOfValue>
-    class HashTable{
+template<class K,class V,class KeyOfValue>
 
-      public:
+struct  Hash_Iterator{
+  typedef HashNode<V> Node;
+  typedef  Node* pNode;
+  typedef Hash_Iterator<K,V,KeyOfValue> Self;
+  typedef  HashTable<K,V,KeyOfValue> HashT;
+
+
+  pNode _node;
+  HashT* _ht; 
+
+  Hash_Iterator(pNode node,HashT* ht)
+        :_node(node)
+         ,_ht(ht)
+      {
+
+      }
+
+      V& operator*(){
+        return _node->_data;
+      }
+
+      V* operator->(){
+        return &(operator*());
+      }
+
+      bool operator!=(const Self& it){
+        return _node != it._node;
+      }
+
+      Self& operator++(){
+        if(_node->_next){
+          _node=_node->_next;
+        }else{
+          KeyOfValue Kov;
+          size_t index=Kov(_node->_data)%_ht->_table.size();
+          ++index;
+          //向后搜索,找到第一个非空链表的头结点,既为下一个元素的位置
+          for(;index<_ht->_table.size();++index){
+            if(_ht->_table[index]){
+              _node= _ht->_table[index];
+              break;
+            }
+          }
+
+          //如果走到表尾,说明无有效元素存在
+          if(index==_ht->_table.size()){
+            //未找到非空链表
+            _node=nullptr;
+          }
+        }
+        return *this;
+      }  
+ };
+
+ template <class K,class V,class KeyOfValue>
+ class HashTable{
+   public:
         typedef HashNode<V> Node;
         typedef Node* pNode;
+       //泛型友元声明
+        //template <class K,class V,class KeyOfValue>
+        //使用上述模板方式会和HashTable模板命名冲突
+        template<class Key,class  Val,class  SKeyOfValue>
+        friend struct Hash_Iterator;
 
+        typedef Hash_Iterator<K,V,KeyOfValue> Iterator;
+
+   
+   public:
+        Iterator begin(){
+          for(size_t i=0;i<_table.size();++i){
+            if(_table[i]){
+              return Iterator(_table[i],this);
+            }
+           
+          }
+          //空表
+          return Iterator(nullptr,this);
+        }
+     
+        Iterator end(){
+          return Iterator(nullptr,this);
+        }
       public:
+
         //插入
         bool Insert(const V& data){
           CheckCapacity();
           KeyOfValue Kov;
           size_t index=Kov(data)%_table.size();
 
+   
           pNode cur=_table[index];
  
 
@@ -184,67 +267,5 @@ namespace  Opend{
        size_t _size=0;
     };
 
-   template<class K,class V,class KeyOfValue>
-    struct _Hash_Iterator{
-      typedef HashNode<V> Node;
-      typedef  Node* pNode;
 
-      typedef _Hash_Iterator<K,V,KeyOfValue> Self;
-      pNode _node;
 
-      typedef  HashTable<K,pair<K,V>,KeyOfValue> HashT;
-      _Hash_Iterator(pNode node)
-        :_node(node)
-      {
-
-      }
-
-      V& operator*(){
-        return _node->_data;
-      }
-
-      V* operator->(){
-        return &(operator*());
-      }
-
-      bool operator!=(const Self& it){
-        return _node != it._node;
-      }
-
-      Self& operator++(){
-
-      }  
-    };
- template<class K,class V,class KeyOfValue>
-    struct _Hash_Iterator{
-      typedef HashNode<V> Node;
-      typedef  Node* pNode;
-
-      typedef _Hash_Iterator<K,V,KeyOfValue> Self;
-      pNode _node;
-
-      typedef  HashTable<K,pair<K,V>,KeyValue> HashT;
-      _Hash_Iterator(pNode node)
-        :_node(node)
-      {
-
-      }
-
-      V& operator*(){
-        return _node->_data;
-      }
-
-      V* operator->(){
-        return &(operator*());
-      }
-
-      bool operator!=(const Self& it){
-        return _node != it._node;
-      }
-
-      Self& operator++(){
-
-      }  
-    };
-
-}
