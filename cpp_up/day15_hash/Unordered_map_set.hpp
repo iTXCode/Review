@@ -1,7 +1,25 @@
 #pragma once
 #include"hash.hpp"
+#include<string>
 
-template <class K,class V>
+template <class K>
+struct HFun{
+  const K&operator()(const K&a){
+    return a;
+  }
+};
+
+template<>
+struct HFun<string>{
+  size_t operator()(const string& str){
+    size_t hash=0;
+    for(const auto& e:str){
+      hash=hash*131 +e;
+    }
+    return hash;
+  }
+};
+template <class K,class V,class HashFun=HFun<K>>
 
 class UnorderedMap{
   public:
@@ -13,7 +31,12 @@ class UnorderedMap{
       }
     };
   public:
-    typedef typename HashTable<K,ValueType,MapKeyOfValue>::Iterator   Iterator;
+    typedef typename HashTable<K,ValueType,MapKeyOfValue,HashFun>::Iterator   Iterator;
+
+    V& operator[](const K& key){
+      pair<Iterator,bool> ret=_ht.Insert(key);
+      return ret.first->second;
+    }
 
     Iterator Begin(){
       return _ht.begin();
@@ -25,15 +48,15 @@ class UnorderedMap{
   public:
 
 
-    bool  Insert(const pair<K,V>&  data){
+    pair<Iterator,bool>  Insert(const pair<K,V>&  data){
         return _ht.Insert(data);
     }
   private:
-    HashTable<K,ValueType,MapKeyOfValue> _ht;
+    HashTable<K,ValueType,MapKeyOfValue,HashFun> _ht;
 };
 
 
-template <class K>
+template <class K,class HashFun=HFun<K>>
 
 class UnorderedSet{
  public:   
@@ -42,7 +65,7 @@ class UnorderedSet{
       return data;
     }
   };
-  typedef typename HashTable<K,K,SetKeyOfValue>::Iterator Iterator;
+  typedef typename HashTable<K,K,SetKeyOfValue,HashFun>::Iterator Iterator;
 
   Iterator Begin(){
     return  _ht.begin(); 
@@ -52,9 +75,9 @@ class UnorderedSet{
     return _ht.end();
   }
   public:
-   bool Insert(const K& data){
+   pair<Iterator,bool>  Insert(const K& data){
      return   _ht.Insert(data);
   }
   private:
-    HashTable<K,K,SetKeyOfValue> _ht;
+    HashTable<K,K,SetKeyOfValue,HashFun> _ht;
 };

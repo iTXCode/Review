@@ -119,16 +119,16 @@ namespace Closed
     };
 
   //前置声明,声明函数
-template<class K,class V,class KeyOfValue>
+template<class K,class V,class KeyOfValue,class HashFun>
 class HashTable;
 
-template<class K,class V,class KeyOfValue>
+template<class K,class V,class KeyOfValue,class HashFun>
 
 struct  Hash_Iterator{
   typedef HashNode<V> Node;
   typedef  Node* pNode;
-  typedef Hash_Iterator<K,V,KeyOfValue> Self;
-  typedef  HashTable<K,V,KeyOfValue> HashT;
+  typedef Hash_Iterator<K,V,KeyOfValue,HashFun> Self;
+  typedef  HashTable<K,V,KeyOfValue,HashFun> HashT;
 
 
   pNode _node;
@@ -158,7 +158,7 @@ struct  Hash_Iterator{
           _node=_node->_next;
         }else{
           KeyOfValue Kov;
-          size_t index=Kov(_node->_data)%_ht->_table.size();
+          size_t index=_ht->HashIndex( Kov(_node->_data),_ht->_table.size() );
           ++index;
           //向后搜索,找到第一个非空链表的头结点,既为下一个元素的位置
           for(;index<_ht->_table.size();++index){
@@ -178,7 +178,7 @@ struct  Hash_Iterator{
       }  
  };
 
- template <class K,class V,class KeyOfValue>
+ template <class K,class V,class KeyOfValue,class HashFun>
  class HashTable{
    public:
         typedef HashNode<V> Node;
@@ -186,10 +186,10 @@ struct  Hash_Iterator{
        //泛型友元声明
         //template <class K,class V,class KeyOfValue>
         //使用上述模板方式会和HashTable模板命名冲突
-        template<class Key,class  Val,class  SKeyOfValue>
+        template<class Key,class  Val,class  SKeyOfValue,class SHashFun>
         friend struct Hash_Iterator;
 
-        typedef Hash_Iterator<K,V,KeyOfValue> Iterator;
+        typedef Hash_Iterator<K,V,KeyOfValue, HashFun> Iterator;
 
    
    public:
@@ -210,10 +210,10 @@ struct  Hash_Iterator{
       public:
 
         //插入
-        bool Insert(const V& data){
+        pair<Iterator,bool> Insert(const V& data){
           CheckCapacity();
           KeyOfValue Kov;
-          size_t index=Kov(data)%_table.size();
+          size_t index=HashIndex(Kov(data),_table.size());
 
    
           pNode cur=_table[index];
@@ -221,7 +221,7 @@ struct  Hash_Iterator{
 
           while(cur){
             if(Kov(cur->_data)== Kov(data)){
-              return false;
+              return make_pair(Iterator(cur,this),false);
             }
             cur=cur->_next;
           }
@@ -233,36 +233,105 @@ struct  Hash_Iterator{
           cur->_next=_table[index];
           _table[index]=cur;
           ++_size;
-          return true;
+          return make_pair(Iterator(cur,this),true);
         }
+        size_t getNextPrime(const size_t prime)
+        {
+          static const int PRIMECOUNT = 28;
+          static const size_t primeList[PRIMECOUNT] =
+          {
+            53ul, 97ul, 193ul, 389ul, 769ul,
+            1543ul, 3079ul, 6151ul, 12289ul, 24593ul,
+            49157ul, 98317ul, 196613ul, 393241ul, 786433ul,
+            1572869ul, 3145739ul, 6291469ul, 12582917ul, 25165843ul,
+            50331653ul, 100663319ul, 201326611ul, 402653189ul, 805306457ul,
+            1610612741ul, 3221225473ul, 4294967291ul
 
-        void CheckCapacity(){
-          if(_size==_table.size()){
-            size_t newC=_table.size()==0?10:2*_table.size();
+          };
 
-            KeyOfValue Kov;
-            vector<pNode> newHt;
-            //新建一个表,将原来表中的元素赋值到新的表中
-            newHt.resize(newC);
-            for(size_t i=0;i<_table.size();i++){
-              pNode cur=_table[i];
+          for (size_t i = 0; i < PRIMECOUNT; ++i)
+          {
+            if (primeList[i] > prime)
+              return primeList[i];
 
-              while(cur){
-                pNode next=cur->_next;
-                //位置要重新计算
-                size_t index=( Kov(cur->_data) )%newHt.size();
-                //头插
-                cur->_next=newHt[index];
-                newHt[index]=cur;
-                cur=next;
-              }
-              _table[i]=nullptr;
-            }
-            //新表和原来的表进行交换
-            _table.swap(newHt);
           }
-        }
-      private:
+
+          return primeList[PRIMECOUNT - 1];
+                    
+}
+
+void CheckCapacity(){
+  if(_size==_table.size()){
+    //size_t newC=_table.size()==0?10:2*_table.size();
+
+    size_t newC=getNextPrime(_table.size());
+    KeyOfValue Kov;
+    vector<pNode> newHt; 
+    //新建一个表,将原来表中的元素赋值到新的表中
+    newHt.resize(newC);
+    for(size_t i=0;i<_table.size();i++){
+      pNode cur=_table[i];
+
+      while(cur){
+        pNode next=cur->_next;
+        //位置要重新计算
+        size_t index=HashIndex(Kov(cur->_data),newHt.size());
+        //头插
+        cur->_next=newHt[index];
+        newHt[index]=cur;
+        cur=next;
+      }
+      _table[i]=nullptr;
+    }
+    //新表和原来的表进行交换
+    _table.swap(newHt);
+  }
+}
+
+
+Iterator Find(const K& key){
+  size_t index=HashIndex(key,_table.size());
+  pNode cur=_table[index];
+  KeyOfValue kov;
+  while(cur){
+    if(kov(cur->data)==key)
+      return Iterator(cur,this);
+  }
+  return end();
+}
+
+bool Erase(const K& key){
+  size_t index=HashIndex(key,_table.size());
+  pNode cur=_table[index];
+  pNode prev=nullptr;
+
+  KeyOfValue kov;
+
+  while(cur){
+    if(kov(cur->_data)==key){
+      if(prev){
+        prev->_next=cur->_next;
+      }
+      else 
+        //删除的是链表的头结点,更新头结点
+        _table[index]=cur->_next;
+
+      delete cur;
+      --_size;
+      return true;
+    }
+    prev =cur;
+    cur=cur->_next; 
+  }
+  return false;
+}
+
+size_t HashIndex(const K& key,size_t sz){
+  //把key转换成整数
+  HashFun hfun;
+  return hfun(key)%sz;
+}
+private:
        vector<pNode> _table;
        size_t _size=0;
     };

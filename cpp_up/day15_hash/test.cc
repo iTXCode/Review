@@ -12,7 +12,7 @@ void TestUnordered(){
   map.Insert(make_pair(5,5));
 
   UnorderedMap<int,int>::Iterator mit=map.Begin();
-  UnorderedMap<int,int>::Iterator e=map.End();
+  
   while(mit!=map.End()){
     cout<<mit->first<<"-->"<<mit->second<<endl;
     ++mit; 
@@ -30,6 +30,17 @@ void TestUnordered(){
     cout<<*sit<<endl;
     ++sit; 
   }
+
+  UnorderedMap<string,string> m;
+ 
+  m.Insert(make_pair("my","name"));
+  m.Insert(make_pair("you","name"));
+
+  auto it1=m.Begin();
+  while(it1!=m.End()){
+    cout<<it1->first<<"-->"<<it1->second<<endl;
+      ++it1;
+  }
 }
 
 
@@ -43,7 +54,7 @@ void TestbitSet(){
 
 int main(){
   //Test();
-  //TestUnordered();
-  TestbitSet();
+ TestUnordered();
+ // TestbitSet();
   return 0;
 }
