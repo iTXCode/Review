@@ -1,5 +1,8 @@
+#pragma once
+
 #include<vector>
 #include<iostream>
+#include<string>
 using namespace std; 
 
 class bitSet{
@@ -25,7 +28,7 @@ class bitSet{
     }
 
     //检查X对应的位是否位1
-    bool TestBSet(size_t X){
+    bool TestSet(size_t X){
       size_t index=X>>5;
       size_t bitNum=X%32;
       return _bits[index]&(1<<bitNum);

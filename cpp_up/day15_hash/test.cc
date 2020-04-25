@@ -47,14 +47,14 @@ void TestUnordered(){
 void TestbitSet(){
   bitSet bset(1000);
   bset.Set(5);
-  cout<<bset.TestBSet(5)<<endl;
+  cout<<"该位图中是否存在数字5:"<<bset.TestBSet(5)<<endl;
   bset.Set(2);
   bset.ReSet(5);
 }
 
 int main(){
   //Test();
- TestUnordered();
- // TestbitSet();
+  //TestUnordered();
+   TestbitSet();
   return 0;
 }
