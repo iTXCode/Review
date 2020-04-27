@@ -122,9 +122,7 @@ class Avl_Tree{
            }else if(bf==-1){
              parent->_bf=0;
              subR->_bf=1;
-           }
-
-         
+           }      
          }
          //旋转结束,已经平衡,结束调整
         break;

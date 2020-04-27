@@ -139,37 +139,102 @@
 //}
 
 
+//#include<iostream>
+//
+//using namespace std;
+//
+//class Person{
+//
+//  public:
+//    Person(){
+//      cout<<"Person()"<<endl;
+//    }
+//    int num=10;
+//    void Print(){
+//      cout<<"Peron()"<<endl;
+//    }
+//};
+//
+//
+//class Student:protected Person{
+//
+//  public:
+//    Student(){
+//      cout<<"Student()"<<endl;
+//    }
+//  private:
+//};
+//int main(){
+//
+//  Student s;//先调用基类的构造函数再调用派生类的
+//  //cout<<s.num<<endl;
+//  //当派生类以public方式继承的时候,Person中的num可以被访问到
+//  //当以protected方式继承的时候就不可以方位基类中的public属性的变量和函数
+//
+//  return 0;
+//}
+
+
 #include<iostream>
 
+
+
 using namespace std;
-
 class Person{
-
   public:
-    Person(){
-      cout<<"Person()"<<endl;
-    }
-    int num=10;
-    void Print(){
-      cout<<"Peron()"<<endl;
-    }
+      int _id=123;
+
 };
 
-
-class Student:protected Person{
-
+class Student:public Person   //单继承
+{
   public:
-    Student(){
-      cout<<"Student()"<<endl;
-    }
-  private:
+    const char *name="peter";
+
 };
+class Teacher : public Person  //单继承
+{
+    public:
+    const char* sex="男";
+
+};
+
+class Assistant:public Student,public Teacher   //多继承
+{
+  public:
+      int age=20;
+
+};
+//以上的所有继承关系构成了菱形继承
+/*
+       Person
+       /   \
+      /     \
+   Student  Teacher
+      \      /
+       \    /
+      Assistant
+   菱形继承的二义性:Assistant类既继承自Student,又继承自Teacher
+   当访问Student和Teacher共同的基类Person中的成员时产生二义性
+   菱形继承的数据冗余:Assistant类既继承自Student,又继承自Teacher
+   则Assistant中就有两份来自Person类中的资源 
+ */
+
+void test(){
+  Assistant ast;
+  std::cout << ast.name << std::endl;
+  std::cout << ast.sex << std::endl;
+  std::cout << ast.age << std::endl;
+  //std::cout << ast._id << std::endl;//提示_id访问不明确
+  std::cout <<ast.Student::_id << std::endl;
+  std::cout << ast.Teacher::_id << std::endl;
+  // 需要显示指定访问哪个父类的成员可以解决二义性问题，
+  //但是数据冗余问题无法解决
+
+}
 int main(){
-
-  Student s;//先调用基类的构造函数再调用派生类的
-  //cout<<s.num<<endl;
-  //当派生类以public方式继承的时候,Person中的num可以被访问到
-  //当以protected方式继承的时候就不可以方位基类中的public属性的变量和函数
-
+  test();
   return 0;
 }
+
+

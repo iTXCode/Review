@@ -60,7 +60,7 @@ namespace Closed
           size_t index=key%_table.size();
 
           while(_table[index]._state!=EMPTY){
-
+            
             if(_table[index]._state==EXIST && _table[index]._kv.first==key){
               return &_table[index];
             }
@@ -217,8 +217,7 @@ struct  Hash_Iterator{
 
    
           pNode cur=_table[index];
- 
-
+  
           while(cur){
             if(Kov(cur->_data)== Kov(data)){
               return make_pair(Iterator(cur,this),false);
