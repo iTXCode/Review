@@ -166,34 +166,70 @@ class BSTree{
           delete cur;
           cur=nullptr;
         }else{
-          //左右孩子都存在
-          //1.寻找替换节点
-          pNode pNext=cur->_left;//从其左子树中找一个最大的结点来替换
-          parent=cur;
+       //   //左右孩子都存在
+       //   //1.寻找替换节点
+       //   pNode pNext=cur->_left;//从其左子树中找一个最大的结点来替换
+       //   parent=cur;
+       //   //找到左子树的最右结点
+       //   //没有右子树则其左孩子即为左子树中最大结点
+       //   while(pNext->_right){
+       //     parent=pNext;
+       //     pNext=pNext->_right;
+       //   }
+
+       //   //2.置换
+       //   cur->_value=pNext->_value;
+       //   //问题
+       //   if(parent->_right==pNext)
+       //     parent->_right=nullptr;
+
+       //   if(pNext->_left){
+       //     parent->_right=pNext->_left;
+       //   }
+       //   //若pNext所指向的子节点是叶子结点
+       //   if(pNext->_left== nullptr&& pNext->_right==nullptr){
+       //      parent->_left=nullptr;
+       //   }
+//     //     if(pNext->_left){
+//     //       parent->_left=pNext->_left;
+//     //     }else if(pNext->_right){
+//     //       parent->_left=pNext->_right;
+//     //     }else{
+//     //       cur->_left=nullptr;
+//     //     }
+
+       //   
+       //   delete pNext;
+       //   pNext=nullptr;
+        
+
+
+        pNode pNext=cur->_left;
+        parent=cur;
+
+        if(pNext->_left==nullptr && pNext->_right==nullptr){
+          cur->_value=pNext->_value;
+          cur->_left=nullptr;
+        }
+        if(pNext->_left&&pNext->_right==nullptr){
+          parent->_left=pNext->_left;
+        }else{
           while(pNext->_right){
             parent=pNext;
-            pNext=pNext->_right;
+            pNext=pNext->_right; 
           }
 
-          //2.置换
           cur->_value=pNext->_value;
-          //问题
-          if(parent->_right==pNext)
-            parent->_right=nullptr;
-      
-          //若pNext所指向的子节点不是叶子结点
-          if(pNext->_left== nullptr&& pNext->_right==nullptr){
-             parent->_left=nullptr;
-          }
           if(pNext->_left){
-            parent->_left=pNext->_left;
-          }else if(pNext->_right){
-            parent->_left=pNext->_right;
-          }else{
-            cur->_left=nullptr;
+            parent->_right=pNext->_left;
           }
-          delete pNext;
-          pNext=nullptr;
+          if(parent->_right==pNext){
+            parent->_right=nullptr; 
+          }
+        }
+        
+        delete pNext;
+        pNext==nullptr;
         }
       return true; 
     }

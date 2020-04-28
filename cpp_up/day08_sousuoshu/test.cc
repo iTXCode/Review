@@ -25,7 +25,7 @@ void TestTree(){
   bt.InorderTravel();
   std::cout<<"后序遍历:";
   bt.PostOrderTravel();
-  bt.Erase(4);
+  bt.Erase(5);
   bt.InorderTravel();
   bt.Erase(8);
   bt.InorderTravel();
@@ -35,7 +35,7 @@ void TestTree(){
   bt.InorderTravel();
   bt.Erase(2);
   bt.InorderTravel();
-  bt.Erase(5);
+  bt.Erase(4);
   bt.InorderTravel();
   bt.Erase(3);
   bt.InorderTravel();
