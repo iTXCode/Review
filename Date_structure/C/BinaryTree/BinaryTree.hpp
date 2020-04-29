@@ -26,6 +26,7 @@ void CreateTree(BiTree* root){
 }
 
 
+
 //先序遍历
 void PreOrderTravel(BiTree root){
   if(root!=NULL){
