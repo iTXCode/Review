@@ -10,10 +10,12 @@ typedef  struct StackNode{
 typedef struct Stack{
   Node* _top;
   Node* _end;
+  int _size; 
 }Stack;
 
 void StackInit(Stack *stack){
   stack->_top=stack->_end=NULL;
+  stack->_size=0;
 }
 
 void Push(Stack* stack,Type value){
@@ -22,6 +24,7 @@ void Push(Stack* stack,Type value){
     stack->_top->_data=value;
     stack->_top->_next=NULL;
     stack->_end=stack->_top;
+    stack->_size++;
     return; 
   }
   
@@ -31,6 +34,7 @@ void Push(Stack* stack,Type value){
   newNode->_next=NULL;
   stack->_top->_next=newNode;
   stack->_top=newNode;
+  stack->_size++;
 }
 
 void Pop(Stack* stack){
@@ -41,6 +45,7 @@ void Pop(Stack* stack){
   if(stack->_top==stack->_end){
     free(stack->_top);
     stack->_end=stack->_top=NULL;
+    stack->_size--;
     return;
   }
 
@@ -51,6 +56,7 @@ void Pop(Stack* stack){
   cur->_next=NULL;
   free(stack->_top);
   stack->_top=cur;
+  stack->_size--;
 }
 
 Type StackTop(const Stack* stack){
@@ -58,19 +64,13 @@ Type StackTop(const Stack* stack){
 }
 
 int Empty(Stack* stack){
-  if(stack->_top==NULL && stack->_end==NULL){
-    return 1;
-  }
-  return 0;
+  if(stack->_size==0)
+    return 0;
+  return 1;
 }
 
 int StackSize(Stack *stack){
-  if(stack->_end==NULL && stack->_top==NULL)
-    return 0;
-  if(stack->_top==stack->_end&& stack->_end!=NULL)
-    return 1;
-  return (stack->_top-stack->_end);
-
+  return stack->_size; 
 }
 void StackPrint(Stack* stack){
   if(stack==NULL){

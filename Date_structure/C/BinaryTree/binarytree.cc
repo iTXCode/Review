@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdlib.h>
 #include<vector>
+#include<queue>
 
 using namespace std;
 
@@ -43,6 +44,31 @@ class Bitree{
    PreOrderTravel(root->_left);
    PreOrderTravel(root->_right);
   }
+
+
+  //输出叶子结点
+  void PreOrder(pNode root){
+    if(root!=nullptr){
+      if(root->_left==nullptr && root->_right==nullptr){
+        cout<<root->_data<<" ";
+      }
+      PreOrder(root->_left);
+      PreOrder(root->_right);
+    }
+  }
+
+
+  //层序遍历
+ 
+  void LevelTravel(pNode root){
+
+    if(root==NULL){
+      return;
+    }
+   
+    queue<pNode> qu;
+  }
+
   private:
   pNode _root;
 
@@ -57,8 +83,8 @@ class Bitree{
       }
 
       (*root)->_data=_val;
-      _CreateTree(&(*root)->_left);
-      _CreateTree(&(*root)->_right);
+      _CreateTree(&( (*root)->_left ));
+      _CreateTree(&( (*root)->_right ));
     }
   }
 };
@@ -71,6 +97,11 @@ int main(){
   TreeNode<char>*  root=tree.getroot();
   cout<<"前序遍历:";
   tree.PreOrderTravel(root);
+  cout<<endl;
+  
+  //输出叶子结点
+  cout<<"输出叶子结点:";
+  tree.PreOrder(root);
   cout<<endl;
   return 0;
 }
