@@ -130,11 +130,60 @@ void _QuickSort_wakeng(int *array,int left,int right){
 //快速排序
 //要排序的区间是array[left,right]
 
-void QuickSort_wakeng(int* array,int size){
-  _QuickSort_wakeng(array,0,size-1);
+#### 分治算法:分别处理左右两个小区间
+- 1.小区间的size ==0 
+- 2.小区间内有序 size==1
+###### 递归版本
+```cpp
+void _QuickSort(int *array,int left,int right){
+ //终止条件:size==0 || size==1
+ //left ==right 区间内还剩一个数
+ //left > right 区间内没有数
+  if(left==right){
+    return ;
+  }
+  if(left>right){
+    return;
+  }
+
+  int div;//比基准值小的放其左边,大的放到后面去,基准值所在的下标
+  div=Partion(array,left,right);//遍历array[left,right]区间,把夏普的放左,大的放右面
+  _QuickSort(array,left,div-1);//分治解决左边的小区间
+  _QuickSort(array,div+1,right);//分治解决右边的小区间
 }
 
 ```
+###### 非递归(需要利用栈 + 循环)
+
+```cpp
+void _QuickSort(int* array,int left,int right){
+  stack<int> s;
+  s.push(right);
+  s.push(left);
+
+  while(!s.empty()){
+    int _left=s.top();
+    s.pop();
+    int _right=s.top();
+    s.pop();
+
+    if(_left>=_right){
+      continue; 
+    }
+
+    int div=Partition(array,_left,_right);
+
+    //div+1 right
+    s.push(_right);
+    s.push(div+1);
+    //_left,div -1
+    s.push(div-1);
+    s.push(_left);
+  }
+}
+
+```
+
 
 ##### 方法三:前后下标版本
 
@@ -192,3 +241,16 @@ array[left],array[mid],array[right]
 选出基准值之后,还是把基准值交换到最右侧/左侧
 再Partition
 - 2.随机,从left 到 right 随机选一个下标
+
+
+
+
+### 归并排序(合并排序)
+
+- 假如:先把无序数组看成两个小组[left,mid)和[mid,right)
+- 对左右两个小数组分别进行排序
+- 再将左右两个有效数组进行合并
+
+
+
+

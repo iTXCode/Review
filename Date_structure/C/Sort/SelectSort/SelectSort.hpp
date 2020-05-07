@@ -170,9 +170,10 @@ void BubbleSort1(int *array,int size){
     for(int j=i+1;j<size;j++){
       if(array[i]>array[j])
       { 
-        Swap(array+i,array+j); 
+        Swap(array+i,array+j);
+        flag=0;
       } 
-      flag=0;
+
     }
 
     if(flag==1){
