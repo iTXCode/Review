@@ -67,7 +67,7 @@ class Heap{
      }
 
      if(index==-1){
-       cout<<"您所要差找的值不存在!"<<endl;
+       cout<<"您所要查找的值不存在!"<<endl;
        return;
      }
 
@@ -89,6 +89,8 @@ class Heap{
        AdjustDown(array,size-1-i,0);
      }
    }
+
+   
    void HeapModify(Heap<T>* heap){
      int val;
      cout<<"请输入要修改的值:";
@@ -110,7 +112,7 @@ class Heap{
 
      cout<<"请输入修改后的值:";
      cin>>val;
-    heap->_array[index]=val;
+     heap->_array[index]=val;
 
      AdjustUp(heap->_array,heap->_size,index);
    }
@@ -159,7 +161,7 @@ class Heap{
         if(child>size){
           return;
         }
-        int root=(child-1)/2;
+        int root=(child-2)/2;
 
         if(array[root]>=array[child]){
           return;
