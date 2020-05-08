@@ -1,7 +1,7 @@
 #include"SelectSort.hpp"
 
 void TestSort(){
-  int array[]={1,4,3,9,78,65,98,20};
+  int array[]={100,4,3,9,78,65,98,20};
   int size=sizeof(array)/sizeof(array[0]);
 
   SelectSort(array,size);
@@ -10,6 +10,7 @@ void TestSort(){
   SelectSortR(array,size);
   PrintSort(array,size);
 
+  cout<<"SelectSortXN:";
   SelectSortXN(array,size);
   PrintSort(array,size);
 

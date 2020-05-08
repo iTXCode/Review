@@ -82,13 +82,13 @@ void SelectSortXN(int *array,int size){
 
     //存在的情况为minSpace位置的下标即为最大数的位置下标
     //则会导致交换完成后数组的大小顺序未变
-//    if(minSpace==max){
-//      max=min;
-//    }
-//
-    if(max!=minSpace) { //该判断条件会是我们规避上述情况的发生 
-      Swap(array+max,array+maxSpace);
+    if(minSpace==max){
+      max=min;
     }
+//
+//    if(max!=minSpace) { //该判断条件会是我们规避上述情况的发生 
+      Swap(array+max,array+maxSpace);
+//    }
 
     minSpace++;
     maxSpace--;

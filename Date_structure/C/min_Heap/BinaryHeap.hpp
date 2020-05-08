@@ -1,4 +1,4 @@
-
+#pragma once
 #include<iostream>
 #include<memory.h>
 #include<stdlib.h>
@@ -7,12 +7,12 @@ using namespace std;
 template <class T>
 class Heap{
   public:
-    Heap(const size_t& size=T())
+    Heap(const int& size=T())
       :_array(nullptr)
        ,_size(size) 
   {}
 
-    void HeapInit(Heap<T>* heap,T* array,size_t size){
+    void HeapInit(Heap<T>* heap,T* array,int size){
       
       heap->_array=new T[size];
       heap->_size=size;
@@ -28,19 +28,19 @@ class Heap{
       cout<<endl;
     }
 
-    void AdjustDown(T* array,size_t size,size_t parent){
+    void AdjustDown(T* array,int size,int parent){
       //向下调整,
 
       while(1){
-        size_t left=2*parent+1;
-        size_t right=2*parent+2;
+        int left=2*parent+1;
+        int right=2*parent+2;
 
 
         if(left>=size){
           //需要调整的这个结点没有左孩子的情况
           return;
         }
-        size_t min=left;
+        int min=left;
 
         if(right<size && array[right]<array[left]){
           min=right;
@@ -55,7 +55,7 @@ class Heap{
       }
     }
 
-    void AdjustUp(T* array,size_t size,size_t child){
+    void AdjustUp(T* array,int size,int child){
       
     
       while(child!=0){
@@ -83,7 +83,7 @@ class Heap{
     }
 
     void HeapModify(Heap<T>* heap,T value){
-      int index=0;
+      int index=-1;
 
       for(int i=0;i<heap->_size;i++){
         if(heap->_array[i]==value){
@@ -91,7 +91,7 @@ class Heap{
         }
       }
 
-      if(index==0){
+      if(index==-1){
         cout<<"您所要修改的的内容不在该堆中!"<<endl;
         return;
       }
@@ -119,9 +119,9 @@ class Heap{
       AdjustDown(heap->_array,heap->_size,0);
     }
   private:
-    void CreateHeap(T* array,size_t& size){
+    void CreateHeap(T* array,int& size){
   
-      for(size_t i=(size-2)/2;i>0;i--){
+      for(int i=(size-2)/2;i>=0;i--){
         AdjustDown(array,size,i);
       }
     }
@@ -135,49 +135,8 @@ class Heap{
 
   private:
   T *_array;
-  size_t _size;
+  int _size;
 };
 
 
-void Test(){
-  int array[]={1,64,5,36,78,97,46,23};
-  size_t size=sizeof(array)/sizeof(array[0]);
-  Heap<int> heap;
-  heap.HeapInit(&heap,array,size);
-  heap.PrintHeap(&heap);
-  heap.HeapPop(&heap);
-  heap.PrintHeap(&heap);
 
-  cout<<"请输入你要插入的值:";
-  int value=0;
-  cin>>value;
-  heap.HeapPush(&heap,value);
-  heap.PrintHeap(&heap);
-  cout<<"请输入你要插入的值:";
-  int value1;
-  cin>>value1;
-  heap.HeapPush(&heap,value1);
-  heap.PrintHeap(&heap);
-
-  cout<<"请输入要查找的内容:";
-  int data=0;
-  cin>>data;
-  bool ret=heap.Find(&heap,data);
-
-  if(ret==0){
-    cout<<"您所差找的内容不存在!"<<endl;
-  }else {
-    cout<<"您所差找的内容存在!"<<endl;
-  }
-
-  cout<<"请输入您要修改的内容:";
-  int val;
-  cin>>val;
-  heap.HeapModify(&heap,val);
-  heap.PrintHeap(&heap);
-}
-
-int main(){
-  Test();
-  return 0;
-}

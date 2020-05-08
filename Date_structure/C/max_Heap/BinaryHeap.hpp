@@ -161,7 +161,7 @@ class Heap{
         if(child>size){
           return;
         }
-        int root=(child-2)/2;
+        int root=(child-1)/2;
 
         if(array[root]>=array[child]){
           return;

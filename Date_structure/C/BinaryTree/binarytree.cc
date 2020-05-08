@@ -166,6 +166,14 @@ class Bitree{
     }
   }
 
+
+  bool IsComplete(pNode* root){
+    if(root==nullptr){
+      return nullptr;
+    }
+
+    if()
+  }
   private:
   pNode _root;
 

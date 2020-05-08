@@ -17,10 +17,7 @@ void TestHeap(){
   heap.Heap_Find(&heap);
   heap.Heap_Sort(array,size);
   
-  for(auto& e:array){
-    cout<<e<<" ";
-  }
-  cout<<endl;
+  heap.PrintHeap(&heap);
 }
 
 int main(){
