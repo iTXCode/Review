@@ -45,32 +45,62 @@ int Partition(int* array,int left,int right){
     return begin;
 }
 
-void _QuickSort(int* array,int left,int right){
-  stack<int> s;
-  s.push(right);
-  s.push(left);
+//void _QuickSort(int* array,int left,int right){
+//  stack<int> s;
+//  s.push(right);
+//  s.push(left);
+//
+//  while(!s.empty()){
+//    int _left=s.top();
+//    s.pop();
+//    int _right=s.top();
+//    s.pop();
+//
+//    if(_left>=_right){
+//      continue; 
+//    }
+//
+//    int div=Partition(array,_left,_right);
+//
+//    //div+1 right
+//    s.push(_right);
+//    s.push(div+1);
+//    //_left,div -1
+//    s.push(div-1);
+//    s.push(_left);
+//  }
+//}
+//
 
-  while(!s.empty()){
-    int _left=s.top();
-    s.pop();
-    int _right=s.top();
-    s.pop();
+#include<queue>
+
+void _QuickSort(int *array,int left,int right){
+
+  
+  queue<int> q;
+  q.push(left);
+  q.push(right);
+
+  while(!q.empty()){
+    int _left=q.front();
+    q.pop();
+    int _right=q.front();
+    q.pop();
 
     if(_left>=_right){
-      continue; 
+      continue;
     }
 
     int div=Partition(array,_left,_right);
+    //[left,div-1]
+    q.push(_left);
+    q.push(div-1);
+    //[div+1,_right]
+    q.push(div+1);
+    q.push(_right);   
 
-    //div+1 right
-    s.push(_right);
-    s.push(div+1);
-    //_left,div -1
-    s.push(div-1);
-    s.push(_left);
-  }
+  } 
 }
-
 void QuickSort(int* array,int size){
   _QuickSort(array,0,size-1);
 }
