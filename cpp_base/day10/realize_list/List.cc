@@ -120,7 +120,6 @@ class List{
 
     void Push_Front(const T& val){
       pNode new_node=new Node(val);
-      pNode cur=_head;
       _head->_prev->_next=new_node;
       new_node->_prev=_head->_prev;
       new_node->_next=_head;
@@ -128,10 +127,7 @@ class List{
       _head=new_node;
     }
     void Insert(iterator pos,const T& val){
-      if(pos->_node==_head){
-        Push_Front(val);
-        return;
-      }
+
       pNode new_node=new Node(val);
       pNode tmp=pos->_node;
       tmp->_prev->_next=new_node;
@@ -140,9 +136,19 @@ class List{
       tmp->_prev=new_node;
     }
 
+    void Print(const List<T>& l){
+      pNode cur=l._head;
+      cout<<cur->_data<<" ";
+      cur=cur->_next;
+      while(cur!=_head){
+        cout<<cur->_data<<" ";
+        cur=cur->_next;
+      }
+      cout<<endl;
+    }
     //迭代器的定义和实现
     iterator begin(){
-     return iterator(_head->_next); 
+     return iterator(_head); 
     }
 
     iterator end(){
@@ -174,11 +180,11 @@ void Test(){
   l.Push_Back(2);
   l.Push_Back(3);
   l.Push_Front(4);
-
+  l.Print(l);
   l.Insert(l.begin(),8);
-
+  l.Print(l);
   l.Insert(l.end(),9);
-
+  l.Print(l);
 }
 
 int main(){

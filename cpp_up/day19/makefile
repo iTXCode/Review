@@ -3,4 +3,5 @@
 all:lambda
 
 lambda:lambda.cc 
-	g++ $^ -o $@
+	g++ $^ -o $@  -g	
+

@@ -45,44 +45,67 @@
 
 using namespace std;
 
-template <class T>
-void TestMap(vector<T>& words,int k){
-  map<string,int>  countMap;
-  vector<T> v;
-  for(const auto& e:words)
- {    
-   ++countMap[e];
-   cout<<countMap[e]<<endl;
- }
-  multimap<int,string,greater<int>> FrequentMap;
+//template <class T>
+//void TestMap(vector<T>& words,int k){
+//  map<string,int>  countMap;
+//  vector<T> v;
+//  for(const auto& e:words)
+// {    
+//   ++countMap[e];
+//   cout<<countMap[e]<<endl;
+// }
+//  multimap<int,string,greater<int>> FrequentMap;
+//
+//  for(const auto& e:countMap){
+//    FrequentMap.insert(make_pair(e.second,e.first));
+//  }
+//  for(const auto& e:FrequentMap){
+//    if(k-- > 0){
+//      v.push_back(e.second);
+//    }else{
+//      break;
+//    }
+//  }
+//  auto it=v.begin();
+//  while(it!=v.end()) {
+//    cout<<*it<<" ";
+//    it++;
+//  }
+//  cout<<endl;
+//}
+//
+//int main(){
+// vector<string> v;
+// v.push_back("i");
+// v.push_back("love");
+// v.push_back("leetcode");
+// v.push_back("i");
+// v.push_back("love");
+// v.push_back("coding");
+//
+// TestMap(v,2);
+//  return 0;
+//}
+#include<vector>
 
-  for(const auto& e:countMap){
-    FrequentMap.insert(make_pair(e.second,e.first));
-  }
-  for(const auto& e:FrequentMap){
-    if(k-- > 0){
-      v.push_back(e.second);
-    }else{
-      break;
-    }
-  }
-  auto it=v.begin();
-  while(it!=v.end()) {
-    cout<<*it<<" ";
-    it++;
-  }
-  cout<<endl;
-}
 
 int main(){
- vector<string> v;
- v.push_back("i");
- v.push_back("love");
- v.push_back("leetcode");
- v.push_back("i");
- v.push_back("love");
- v.push_back("coding");
+  map<int,int> m;
+  vector<int> v={1,2,3,4,5,};
+  m.insert(pair<int,int>(1,2));
+  m.insert(pair<int,int>(2,3));
+  m.size();
+  for(auto& e:m){
+    cout<<e.first<<endl;
+  }
 
- TestMap(v,2);
+  int n=9;
+  int i=1;
+  int ret=0;
+  while(n!=0){  
+    ret+=(n&1);
+    n=n>>1; 
+  }
+  cout<<ret<<endl;
   return 0;
 }

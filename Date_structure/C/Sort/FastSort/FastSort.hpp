@@ -166,7 +166,9 @@ int Partion_Point(int *array,int left,int right){
 
   for(int i=left;i<right;i++){
     if(array[i]<array[right]){
-      Swap(array+d,array+i);
+      if(d!=i){  
+        Swap(array+d,array+i);
+      } 
       d++;
     }
   }

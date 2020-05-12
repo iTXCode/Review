@@ -129,44 +129,53 @@ using namespace std;
 //}
 //
  
-#include<list>
+#include<iostream>
+#include<vector>
 #include<stack>
+#include<string>
+#include<deque>
+#include<map>
 
-using namespace std; 
-void Test(int n){
-  if(n==0){
-    cout<<n;
-    return ;
-  }
+using namespace std ;
 
-  int *a= new int[n+1];
 
-  for(int i=0;i<=n;i++){
-    if(i==0){
-      a[0]=0;
-    }else if(i==1){
-      a[i]=1;
-    }else if(i>1){
-      a[i]=(a[i-1]+a[i-2])%1000000007;
+
+  char firstUniqChar(string s) {
+    //暴力破解法
+    int num=s.size();
+    char ret=' ';
+    if(num==0){
+      return ret;
     }
+
+    for(int i=0;i<num;i++){
+      int flag=0;
+      for(int j=i+1;j<num;j++){
+
+        if(s[i]==s[j]){
+          break;
+        }
+        if(j==num-1&&s[i]!=s[j]){
+          flag=1;
+        }
+      }
+      if(flag==1){
+        ret=s[i];
+        break;
+      }
+    }
+    return ret;
   }
-  cout<<a[n]<<endl;
-}
+
+
+
+
+
+ 
+
 
 int main(){
-  //int n;
-  //cin>>n;
-  //Test(n);
-
-  map<int,int> m;
-  m.insert(make_pair(1,2));
-  m.insert(make_pair(2,3));
-  auto it=m.end();
-  for(const auto&e:m){
-    cout<<e.first<<endl;
-  }
-  cout<<it->second<<endl;
+  string s="aadadaad";
+  cout<<firstUniqChar(s)<<endl; 
   return 0;
 }
-
-

@@ -303,7 +303,7 @@ void TtestInset(){
   v.PushBack(5);
   cout<<v.Size()<<endl;
   cout<<v.Capacity()<<endl;
-  v.Insert(v.begin(),10,4);
+  v.Insert(v.begin()+1,10,4);
   PrintIterator(v);
   cout<<v.Size()<<endl;
   cout<<v.Capacity()<<endl;
