@@ -88,7 +88,6 @@ class Solution {
         if(new_x >= row || new_x< 0
             || new_y >= col || new_y<0){
           continue;
-
         }
 
         if( grid[new_x][new_y]==1 &&  box[new_x][new_y]>0){
