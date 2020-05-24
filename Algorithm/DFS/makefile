@@ -1,6 +1,9 @@
 .PHONY:all 
 
-all:DFS
+all:DFS  test
 
 DFS:DFS.cc
 	g++ $^ -o $@
+
+test:test.cc 
+	g++ $^ -o $@  -g 
