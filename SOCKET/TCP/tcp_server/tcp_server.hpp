@@ -32,6 +32,11 @@ class TcpServer{
         TcpSocket clientsock;
         std::string ip;
         uint16_t port;
+
+        //核心问题在于,第一次Accept之后就进入了一个循环
+        //在这个操作过程中,循环一只没有结束,Accept没有被重复调用
+        //后序链接过来的客户端都在内核的链接队列中排队,一直在等待处理
+        //我们需要想办法让我们的程序能够更快速的调用Accept
         bool ret=listen_sock.Accept(&clientsock,&ip,&port);
         if(!ret){
           continue;
