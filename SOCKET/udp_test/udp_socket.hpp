@@ -48,7 +48,7 @@ class UdpSocket{
       return true;
     }
 
-    bool RecvFrom(std::string* msg,std::string* ip,uint16_t *port){
+    bool RecvFrom(std::string* msg,std::string* ip=nullptr,uint16_t *port=nullptr){
       
       char buf[1024]={0};
       sockaddr_in peer;

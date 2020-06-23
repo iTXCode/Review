@@ -6,11 +6,12 @@
 typedef std::function<void(const std::string&,std::string*)> Handler;
 
 class UdpServer{
+  public:
   UdpServer(){
     assert( _sock.Socket() );
   }
   
-  bool Start(const std::string& ip,uint16_t& port,Handler handler){
+  bool Start(const std::string& ip,uint16_t port,Handler handler){
     bool ret=_sock.Bind(ip,port);
     if(!ret){
       return false; 
