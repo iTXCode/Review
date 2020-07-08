@@ -34,7 +34,9 @@ class Selector{
     //wait返回的时候需要告诉调用者那些文件描述符就绪了
     void Wait(std::vector<TcpSocket>* output){
         //调用Wait 就相当于调用select进行等待
-      //1.获取到最大文件描述符
+        output->clear();
+        //1.获取到最大文件描述符
+      
       if(_socket_set.empty()){
         printf("[Selector::Wait] _socket_set is empty\n");
       return;

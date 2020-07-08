@@ -19,12 +19,17 @@ class Epoll{
    
     //只有新客户端连接过来才回调用,调用的频率远低于select
     //也就意味着epoll 拷贝数据就没有select 拷贝的那么频繁
-    void Add(const TcpSocket& sock){
+    void Add(const TcpSocket& sock,bool is_et=false){
+      //epoll   默认是水平触发的,这里修改成垂直触发
+      
       //打印日志
       printf("Epoll::Add %d\n",sock.GetFd());
       //打印出添加的问文件描述符
       epoll_event event;
       event.events=EPOLLIN;
+      if(is_et==true){
+        event.events |=EPOLLET;
+      }
       //此处epoll在add的时候插入的是键值对
       //fd在键和值之中都出现了,这件事情是迫不得已(这也是epoll的槽点之一)
       event.data.fd=sock.GetFd();
@@ -109,6 +114,8 @@ class TcpEpollServer{
         }else{
           //  b.非listen_sock 就调用Recv 
           std::string  req;
+          //ET模式下必须采用非阻塞的方式进行读写
+          
           int n=sock.Recv(&req);
           if(n<0){
             continue;

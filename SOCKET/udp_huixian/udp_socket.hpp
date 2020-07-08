@@ -57,7 +57,7 @@ class UdpSocket{
   //2.对方的IP
   //3.对方的端口号
   //客户端调用接口时不关注对端的IP和端口号，所以将其置为空
-  bool ResvFrom(string* msg,string* ip=nullptr,uint16_t* port=nullptr){
+  bool RecvFrom(string* msg,string* ip=nullptr,uint16_t* port=nullptr){
     
     char buf[1024*10]={0};
     sockaddr_in peer;
