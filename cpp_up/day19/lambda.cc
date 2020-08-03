@@ -140,42 +140,52 @@ using namespace std ;
 
 
 
-  char firstUniqChar(string s) {
-    //暴力破解法
-    int num=s.size();
-    char ret=' ';
-    if(num==0){
-      return ret;
-    }
-
-    for(int i=0;i<num;i++){
-      int flag=0;
-      for(int j=i+1;j<num;j++){
-
-        if(s[i]==s[j]){
-          break;
-        }
-        if(j==num-1&&s[i]!=s[j]){
-          flag=1;
-        }
-      }
-      if(flag==1){
-        ret=s[i];
-        break;
-      }
-    }
-    return ret;
-  }
-
-
-
-
-
- 
+//  char firstUniqChar(string s) {
+//    //暴力破解法
+//    int num=s.size();
+//    char ret=' ';
+//    if(num==0){
+//      return ret;
+//    }
+//
+//    for(int i=0;i<num;i++){
+//      int flag=0;
+//      for(int j=i+1;j<num;j++){
+//
+//        if(s[i]==s[j]){
+//          break;
+//        }
+//        if(j==num-1&&s[i]!=s[j]){
+//          flag=1;
+//        }
+//      }
+//      if(flag==1){
+//        ret=s[i];
+//        break;
+//      }
+//    }
+//    return ret;
+//  }
+//
+//
+//
+//
+//
+// 
+//
+//
+//int main(){
+//  string s="aadadaad";
+//  cout<<firstUniqChar(s)<<endl; 
+//  return 0;
+//}
+//
 
 
 int main(){
-  string s="aadadaad";
-  cout<<firstUniqChar(s)<<endl; 
+  vector<int> v;
+  v.push_back(1);
+  v.push_back(2);
+  std::sort(v.begin(),v.end());
   return 0;
 }
