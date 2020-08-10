@@ -111,14 +111,16 @@ class BSTree{
     }
 
     bool Erase(const T& val){
-      if(_root==nullptr)
-        return false; 
+      if(_root==nullptr){
+        return false;
+      }
+
       pNode cur=_root;
       pNode parent=nullptr;
 
       while(cur){
         if(cur->_val==val){
-          break;
+          break; 
         }else if(cur->_val>val){
           parent=cur;
           cur=cur->_left;
@@ -128,18 +130,77 @@ class BSTree{
         }
       }
 
-      if(cur==_root){
-        if(cur->_left==nullptr && cur->_right==nullptr){
-          _root==nullptr;
-        }else if(cur->_right && cur->_left==nullptr){
-         _root=_root->_right;
-        }else if(cur->_left && cur->_right==nullptr){
-          
+      if(cur->_left==nullptr && cur->_right==nullptr){
+        if(cur!=_root){
+          if(parent->_left==cur){
+            parent->_left=nullptr;
+          }else if( parent->_right==cur ){
+            parent->_right=nullptr;
+          }
+        }else{
+          _root=nullptr;
         }
         delete cur;
         cur=nullptr;
-     }
-}
+      }else if(cur->_right==nullptr){
+        if(cur!=_root){
+          //右子树为空,左子树不为空的情况
+          if(parent->_left==cur){
+            parent->_left=cur->_left;
+          }else if(parent->_right==cur){
+            parent->_right=cur->_left;
+          }
+        }else{
+          _root=cur->_left;
+        }
+        delete cur;
+        cur=nullptr;
+      }else if(cur->_left==nullptr){
+        if(cur!=_root){
+          //左子树为空,右子树不为空的情况
+          if(parent->_left==cur){
+            parent->_left=cur->_right;
+          }else if(parent->_right==cur){
+            parent->_right=cur->_right; 
+          }
+        }else{
+          _root=cur->_right;
+        }
+        delete cur;
+        cur=nullptr;
+
+      }else{
+        //左右子树都不为空的情况
+        pNode pNext=cur->_left; 
+        parent=cur;
+        
+        if(pNext->_right){
+          while(pNext->_right){
+            parent=pNext;
+            pNext=pNext->_right;
+          }
+
+          cur->_val=pNext->_val;
+          if(pNext->_left){
+            parent->_right=pNext->_left;
+          }
+          
+          if(pNext->_left==nullptr){
+            parent->_right=nullptr; 
+          }
+        }else if(pNext->_left){
+          cur->_val=pNext->_val;
+          cur->_left=pNext->_left;
+        }else{
+          //pNext的左右子树都为空
+          cur->_val=pNext->_val;
+          cur->_left=nullptr;
+        }
+        delete pNext;
+        pNext=nullptr;
+      }
+      return true;
+    }
   private:
     void _PreOrder(const pNode root){
       if(root==nullptr)
