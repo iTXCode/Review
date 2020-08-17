@@ -1,33 +1,66 @@
+//#include<iostream>
+//
+//using namespace std;
+//
+//
+//class Person{
+//
+//  public:
+//   virtual  void BuyTicket(){
+//      cout<<"Person:全价"<<endl;
+//    }
+//};
+//
+//class Student:public Person{
+//  public:
+//    virtual void BuyTicket(){
+//      cout<<"Student:半价"<<endl;
+//    }
+//};
+//
+//void test(Person& p){
+//  p.BuyTicket();
+//}
+//
+//
+//int main(){
+//  Person p;
+//  Student s;
+//  test(p);
+//  test(s);
+//  return 0;
+//}
+//
+
+
 #include<iostream>
 
-using namespace std;
+using namespace  std;
 
-
-class Person{
-
+class A{
   public:
-   virtual  void BuyTicket(){
-      cout<<"Person:全价"<<endl;
-    }
+  A(){
+    cout<<"A"<<endl; 
+  }
+  ~A(){
+    cout<<"~A"<<endl; 
+  }
 };
 
-class Student:public Person{
+class B:public A{
   public:
-    virtual void BuyTicket(){
-      cout<<"Student:半价"<<endl;
+    B(){
+      cout<<"B()"<<endl;
+    }
+
+    ~B(){
+      cout<<"~B()"<<endl; 
     }
 };
-
-void test(Person& p){
-  p.BuyTicket();
-}
-
 
 int main(){
-  Person p;
-  Student s;
-  test(p);
-  test(s);
+
+  A* a=new B;
+  delete a;
   return 0;
 }
-
