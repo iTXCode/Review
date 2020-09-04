@@ -1,5 +1,6 @@
 #include<iostream>
 #include<algorithm>
+#include<set>
 using namespace std; 
 
 class Solution {
@@ -30,5 +31,7 @@ class Solution {
     }
 
 };
+
+set<int> u_set;
 
 

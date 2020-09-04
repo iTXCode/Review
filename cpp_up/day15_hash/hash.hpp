@@ -333,7 +333,7 @@ size_t HashIndex(const K& key,size_t sz){
 private:
        vector<pNode> _table;
        size_t _size=0;
-    };
+};
 
 
 

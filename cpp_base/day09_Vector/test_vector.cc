@@ -92,44 +92,81 @@
 
 
 
+//#include<iostream>
+//#include<vector>
+//#include<algorithm>
+//#include<string>
+//
+//using namespace  std;
+//
+//template <class T>
+//void Print(vector<T>& v){
+//
+//  auto it=v.begin();
+//  while(it!=v.end()){
+//    cout<<*it<<" ";
+//    it++;
+//  }    
+//  cout<<endl;
+//}
+//
+//int main(){
+//  std::vector<int> v;
+//  std::cout<<v.size()<<std::endl;
+//  std::cout<<v.capacity()<<std::endl;
+//  v.insert(v.begin(),3);
+//  std::cout<<v[0]<<std::endl;
+//
+//  std:: vector<std::string> v1(2,"bit");
+//  std::cout<<v1[0]<<std::endl;
+//
+//  v.push_back(1);
+//  v.push_back(2);
+//  v.push_back(3);
+//  v.push_back(4);
+//  vector<int>::iterator pos=find(v.begin(),v.end(),3);
+//  v.insert(pos,520);
+//  cout<<*pos<<endl;
+//
+//  pos=v.erase(pos);
+//  cout<<"*pos:"<<*pos<<endl;
+//  Print(v);
+//  return 0;
+//}
+
 #include<iostream>
 #include<vector>
-#include<algorithm>
-#include<string>
 
-using namespace  std;
+using namespace std;
 
-template <class T>
-void Print(vector<T>& v){
-
-  auto it=v.begin();
-  while(it!=v.end()){
-    cout<<*it<<" ";
-    it++;
-  }    
-  cout<<endl;
-}
 
 int main(){
-  std::vector<int> v;
-  std::cout<<v.size()<<std::endl;
-  std::cout<<v.capacity()<<std::endl;
-  v.insert(v.begin(),3);
-  std::cout<<v[0]<<std::endl;
+    //vector::capacity()的使用
+  vector<int> v(10,5);
+  cout<<&v[0]<<endl;
+  cout<<v.capacity()<<endl;
 
-  std:: vector<std::string> v1(2,"bit");
-  std::cout<<v1[0]<<std::endl;
+  //vector::reserve()的使用
+  v.reserve(20);
+  cout<<v.capacity()<<endl;
+  cout<<&v[0]<<endl;
+  vector<int>::iterator vt=v.begin();
+  while(vt!=v.end()){
+    cout<<*vt<<" ";
+    vt++;
+  }
+  cout<<endl;
 
-  v.push_back(1);
-  v.push_back(2);
-  v.push_back(3);
-  v.push_back(4);
-  vector<int>::iterator pos=find(v.begin(),v.end(),3);
-  v.insert(pos,520);
-  cout<<*pos<<endl;
-
-  pos=v.erase(pos);
-  cout<<"*pos:"<<*pos<<endl;
-  Print(v);
+  v.resize(30,1);
+  cout<<&v[0]<<endl;
+  vector<int>::iterator vt1=v.begin();
+  while(vt1!=v.end()){
+    cout<<*vt1<<" ";
+    vt1++;
+  }
+  cout<<endl;
   return 0;
 }
+
+
+

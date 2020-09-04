@@ -45,9 +45,13 @@ class A{
   ~A(){
     cout<<"~A"<<endl; 
   }
+
+  static void Print(){
+    cout<<"Print()"<<endl;
+  }
 };
 
-class B:public A{
+class B: virtual public A{
   public:
     B(){
       cout<<"B()"<<endl;

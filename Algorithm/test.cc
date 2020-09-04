@@ -126,23 +126,45 @@
 //
 
 
+//#include<iostream>
+//#include<vector>
+//#include<queue>
+//using namespace std; 
+//
+//int main(){
+//  priority_queue<pair<int,int>> q;
+//  vector<pair<int,int>> v{{1,3},{2,4},{3,5},{4,3}};
+//
+//  for(auto& e:v){
+//    q.push(e);
+//  }
+//
+//  for(size_t i=0;i<q.size();i++){
+//    auto it=q.top();
+//    q.pop();
+//    cout<<it.first<<"  "<<it.second<<endl;
+//  }
+//  return 0;
+//}
+
+
 #include<iostream>
-#include<vector>
-#include<queue>
-using namespace std; 
+#include<string>
+#include<cctype>
 
-int main(){
-  priority_queue<pair<int,int>> q;
-  vector<pair<int,int>> v{{1,3},{2,4},{3,5},{4,3}};
+using namespace  std;
 
-  for(auto& e:v){
-    q.push(e);
+int  main()
+{
+  string s="AaBcDe";
+  string str;
+  for(auto& e:s){
+    str+=toupper(e);
   }
 
-  for(size_t i=0;i<q.size();i++){
-    auto it=q.top();
-    q.pop();
-    cout<<it.first<<"  "<<it.second<<endl;
+  for(auto&e :str){
+    cout<<e<<endl;
   }
+
   return 0;
 }
