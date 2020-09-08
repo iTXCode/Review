@@ -203,4 +203,4 @@ void _QuickSort_Point(int *array,int left,int right){
 
 void QuickSort_Point(int* array,int size){
   _QuickSort_Point(array,0,size-1);
-}
+

@@ -2,5 +2,5 @@
 
 all:test 
 
-test:test.cc SelectSort.hpp 
+test:test.cc select.hpp 
 	g++ test.cc -o test
