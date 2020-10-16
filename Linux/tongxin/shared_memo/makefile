@@ -1,6 +1,9 @@
 .PHONY:all 
 
-all:create
+all:reader write
 
-create:create.c
-	gcc create.c -o create
+write:write.c myshm.h
+	gcc write.c -o write
+
+reader:reader.c myshm.h
+	gcc reader.c -o reader

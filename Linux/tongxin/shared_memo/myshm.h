@@ -17,7 +17,7 @@ static int  CreateShm(){
     perror("shmget!");
     return 1;
   }
-
+  
   printf("ret=%d\n",ret);
   return ret;
 }
